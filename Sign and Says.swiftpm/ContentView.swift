@@ -44,13 +44,13 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Image(systemName:"camera.circle.fill")
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color.blue)
                         .font(.system(size: 50, weight: .bold))
                     //.padding(.trailing, 250)
                     Spacer()
                     
                     Image(systemName: "hand.rays.fill")
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color.blue)
                         .font(.system(size: 50, weight: .bold))
                 }
                 .padding(.all, 40)
