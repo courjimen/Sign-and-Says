@@ -16,7 +16,7 @@ let package = Package(
         .iOSApplication(
             name: "Sign and Says",
             targets: ["AppModule"],
-            displayVersion: "1.0",
+            displayVersion: "0.1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .heart),
             accentColor: .presetColor(.mint),
@@ -35,7 +35,12 @@ let package = Package(
                 .camera(purposeString: "Please allow us to take pictures of new icons and live record sign language in real time."),
                 .microphone(purposeString: "Please allow us to recognize you or your child’s voice."),
                 .photoLibrary(purposeString: "Please allow access to your photos to create new picture icons for your child."),
-                .speechRecognition(purposeString: "Please allow us to recognize you or your child’s voice.")
+                .speechRecognition(purposeString: "Please allow us to recognize you or your child’s voice."),
+                .bluetoothAlways(purposeString: "Please allow us to share info cards through bluetooth."),
+                .contacts(purposeString: "Please allow us access to your contacts."),
+                .fileAccess(.pictureFolder, mode: .readWrite),
+                .fileAccess(.downloadsFolder, mode: .readWrite),
+                .fileAccess(.userSelectedFiles, mode: .readWrite)
             ],
             appCategory: .education
         )

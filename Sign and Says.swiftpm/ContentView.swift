@@ -2,58 +2,63 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationView {
-            VStack(spacing: 40) {
-                // Header Section
-                VStack(spacing: 8) {
-                    Text("Sign and Says")
-                        .font(.system(size: 34, weight: .bold))
-                    
-                    Text("Select your focus.")
-                        .font(.title2)
-                        .foregroundColor(.secondary)
-                }
-                .padding(.top, 50)
+        NavigationStack {
+            ZStack {
+                Color(Color("Grey").opacity(0.5))
+                    .edgesIgnoringSafeArea(.all)
                 
-                Spacer()
-                
-                // The Bubble Menu
-                ZStack {
-                    // Learn (Top)
-                    CircleButton(title: "LEARN", color: Color(red: 244/255, green: 202/255, blue: 133/255))
-                        .offset(x: 0, y: -70)
+                VStack(spacing: 40) {
+                    // Header Section
+                    VStack(spacing: 8) {
+                        Text("Sign and Says")
+                            .font(.system(size: 34, weight: .bold))
+                        Text("Select your focus.")
+                            .font(.title2)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.top, 50)
                     
-                    // Notes (Left)
-                    CircleButton(title: "NOTES", color: Color(red: 189/255, green: 224/255, blue: 254/255))
-                        .offset(x: -80, y: 20)
-                    
-                    // Speak (Right)
-                    CircleButton(title: "SPEAK", color: Color(red: 233/255, green: 237/255, blue:201/255))
-                        .offset(x: 80, y: 20)
-                    
-                    // Sign (Bottom Left)
-                    CircleButton(title: "SIGN", color: Color(red: 236/255, green: 215/255, blue: 247/255))
-                        .offset(x: -60, y: 150)
-                    
-                    // Profile (Bottom Right)
-                    CircleButton(title: "PROFILE", color: Color(red: 221/255, green: 184/255, blue: 146/255))
-                        .offset(x: 60, y: 150)
-                    
-                }
-                .padding(.bottom, 200)
-                Spacer()
-                HStack {
-                    Image(systemName:"camera.circle.fill")
-                        .foregroundStyle(Color.blue)
-                        .font(.system(size: 50, weight: .bold))
-                    //.padding(.trailing, 250)
                     Spacer()
                     
-                    Image(systemName: "hand.rays.fill")
-                        .foregroundStyle(Color.blue)
-                        .font(.system(size: 50, weight: .bold))
+                    // The Bubble Menu
+                    ZStack { 
+                        // Learn (Top)
+                        CircleButton(title: "LEARN", color: Color("DustyOrange"))
+                          .offset(x: 0, y: -70)
+                        
+                        // Notes (Left)
+                        CircleButton(title: "NOTES", color: Color("BabyBlue"))
+                            .offset(x: -80, y: 20)
+                        
+                        // Sign (Bottom Left)
+                        CircleButton(title: "SIGN", color: Color("Lilac"))
+                            .offset(x: -60, y: 150)
+                        
+                        // Speak (Right)
+                        CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                            .offset(x: 80, y: 20)
+                        
+                        // Profile (Bottom Right)
+                        NavigationLink(destination: ProfilePage()){
+                            CircleButton(title: "PROFILE", color: Color("Cafe"))
+                        }
+                        .offset(x: 60, y: 150)
+                    }
+                    .padding(.bottom, 200)
+                    Spacer()
+                    HStack {
+                        Image(systemName:"camera.circle.fill")
+                            .foregroundStyle(Color.black)
+                            .font(.system(size: 50, weight: .bold))
+                        //.padding(.trailing, 250)
+                        Spacer()
+                        
+                        Image(systemName: "hand.rays.fill")
+                            .foregroundStyle(Color.black)
+                            .font(.system(size: 50, weight: .bold))
+                    }
+                    .padding(.all, 40)
                 }
-                .padding(.all, 40)
             }
         }
     }
