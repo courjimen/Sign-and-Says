@@ -7,13 +7,14 @@
 import SwiftUI
 struct WordCard: View {
     let word: Word
+    let onTap: () -> Void
     
     var body: some View {
         ZStack {
             Circle()
                 .fill(Color.white)
                 .frame(width: 100, height: 100)
-                .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
+                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 4)
                 .overlay(
                 
                     Circle()
@@ -32,12 +33,15 @@ struct WordCard: View {
                 .lineLimit(1)
                 .padding(5)
         }
+        .onTapGesture {
+            onTap()
+        }
     }
 }
 
 #Preview {
     ZStack {
         Color.gray.opacity(0.1).ignoresSafeArea()
-        WordCard(word: Word(text: "Please"))
+        WordCard(word: Word(text: "Please"), onTap: {})
     }
 }

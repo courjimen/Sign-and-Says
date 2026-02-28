@@ -8,6 +8,7 @@ import SwiftUI
 
 struct IconCard: View {
     let icon: Icon
+    let onTap: () -> Void
     
     var body: some View {
         VStack() {
@@ -42,10 +43,13 @@ struct IconCard: View {
                 .stroke(Color.black, lineWidth: 1.5)
         )
         .padding()
+        .onTapGesture {
+            onTap()
+        }
        // .frame(width: 125)
     }
 }
 
 #Preview {
-    IconCard(icon: Icon(name: "BUBBLES", image: "StopSign"))
+    IconCard(icon: Icon(name: "Stop", image: "StopSign"), onTap: {})
 }

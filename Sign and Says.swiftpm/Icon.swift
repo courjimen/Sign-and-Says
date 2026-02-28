@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct Icon:  Hashable {
     var name: String

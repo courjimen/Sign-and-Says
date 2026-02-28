@@ -9,6 +9,7 @@ Create adjusted size for iPad/Tablet users
  
  STRETCH GOAL
  Add 3D hand model to sign the request bar sentence using AI (foundations)
+ Allow categories for the PECS section and then a pop-up screen with additional icons
  */
 
 import SwiftUI
@@ -68,7 +69,10 @@ struct PECS: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack{
                             ForEach(words, id: \.self) { word in
-                                WordCard(word: word)
+                                WordCard(word: word) {
+                                    handleTap(text: word.text)
+                                }
+                                  
                             }
                         }
                         .padding(.bottom, 5)
@@ -80,7 +84,9 @@ struct PECS: View {
                     ScrollView(.horizontal) {
                         HStack(spacing: -15) {
                             ForEach(icons.prefix(icons.count/2), id: \.self) { icon in
-                                IconCard(icon: icon)
+                                IconCard(icon: icon) {
+                                    handleTap(text: icon.name)
+                                }
                             }
                         }
                     }
@@ -88,7 +94,9 @@ struct PECS: View {
                     ScrollView(.horizontal) {
                         HStack(spacing: -15) {
                             ForEach(icons.suffix(from: icons.count/2), id: \.self) { icon in
-                                IconCard(icon: icon)
+                                IconCard(icon: icon) {
+                                    handleTap(text: icon.name)
+                                }
                             }
                         }
                     }
@@ -102,7 +110,7 @@ struct PECS: View {
                             .background(Color.white)
                             .cornerRadius(12)
                             .overlay(
-                                Text(requestText.isEmpty ? "Drag icons to say request..." : requestText)
+                                Text(requestText.isEmpty ? "Drag icons to make request..." : requestText)
                                     .foregroundColor(.gray)
                                     .padding(.horizontal)
                                 , alignment: .leading
@@ -121,7 +129,16 @@ struct PECS: View {
             }
         }
     }
+    
+    func handleTap(text: String) {
+        if requestText.isEmpty {
+            requestText = text
+        } else {
+            requestText += " \(text)"
+        }
+    }
 }
+
 
 #Preview {
     PECS()
