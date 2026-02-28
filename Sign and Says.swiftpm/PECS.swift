@@ -5,7 +5,7 @@
  - add logic for images to be added by user and icon to be created
  Add voice to text for request bar
  Make search bar functional
-Create adjusted size for iPad/Tablet users
+ Create adjusted size for iPad/Tablet users
  
  STRETCH GOAL
  Add 3D hand model to sign the request bar sentence using AI (foundations)
@@ -59,7 +59,7 @@ struct PECS: View {
                     .padding(8)
                     .background(Color(white: 0.9))
                     .cornerRadius(10)
-                
+                    
                 }
                 .padding()
                 
@@ -72,7 +72,7 @@ struct PECS: View {
                                 WordCard(word: word) {
                                     handleTap(text: word.text)
                                 }
-                                  
+                                
                             }
                         }
                         .padding(.bottom, 5)
@@ -103,17 +103,32 @@ struct PECS: View {
                     .padding(-10)
                     
                     //Request Strip
-                    HStack{
+                    HStack {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(Color("DustyOrange").opacity(0.5), lineWidth: 2)
                             .frame(height: 60)
                             .background(Color.white)
                             .cornerRadius(12)
                             .overlay(
-                                Text(requestText.isEmpty ? "Drag icons to make request..." : requestText)
-                                    .foregroundColor(.gray)
-                                    .padding(.horizontal)
-                                , alignment: .leading
+                                HStack {
+                                    Text(requestText.isEmpty ? "Tap icons to make request..." : requestText)
+                                        .foregroundColor(requestText.isEmpty ? .gray : .black)
+                                        .padding(.horizontal)
+                                    
+                                    Spacer()
+                                    
+                                    //Clear button
+                                    if !requestText.isEmpty {
+                                        Button(action: {
+                                            requestText = ""
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.gray)
+                                                .font(.system(size: 22))
+                                                .padding(.trailing, 10)
+                                        }
+                                    }
+                                }
                             )
                             .padding(.top, 10)
                         
