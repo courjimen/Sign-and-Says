@@ -6,11 +6,11 @@
 //
 import SwiftUI
 
-struct IconCardView: View {
+struct IconCard: View {
     let icon: Icon
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack() {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color("Grey"))
                 .shadow(color: Color("DustyOrange"), radius: 10, x: 0, y: 10)
@@ -19,27 +19,33 @@ struct IconCardView: View {
                     Image(icon.image)
                         .resizable()
                         .scaledToFit()
-                        .padding()
+                        .padding(10)
                 )
             
             Text(icon.name.uppercased())
-                .font(.system(size: 30, weight: .bold))
+                .font(.system(size: 25, weight: .bold))
+                .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
                 .foregroundColor(.black)
+                .frame(maxWidth: .infinity)
         }
-        .padding()
+        .padding(15)
+        .frame(width: 175)
         .background(
-            RoundedRectangle(cornerRadius: 30)
+            RoundedRectangle(cornerRadius: 20)
                 .fill(Color("LightGreen"))
         )
         
         .overlay(
-            RoundedRectangle(cornerRadius: 30)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.black, lineWidth: 1.5)
         )
-        .frame(width: 250)
+        .padding()
+       // .frame(width: 125)
     }
 }
 
 #Preview {
-    IconCardView(icon: Icon(name: "STOP", image: "StopSign"))
+    IconCard(icon: Icon(name: "BUBBLES", image: "StopSign"))
 }
