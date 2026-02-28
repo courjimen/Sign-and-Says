@@ -1,3 +1,16 @@
+/* LEFT TO DO
+ Drag and drop words/icons
+ Allow edit button to delete or add new words/icons
+ - add logic for typable word icons to be created by user
+ - add logic for images to be added by user and icon to be created
+ Add voice to text for request bar
+ Make search bar functional
+Create adjusted size for iPad/Tablet users
+ 
+ STRETCH GOAL
+ Add 3D hand model to sign the request bar sentence using AI (foundations)
+ */
+
 import SwiftUI
 
 struct PECS: View {
@@ -53,7 +66,7 @@ struct PECS: View {
                     Text("My Helper Words:")
                         .font(.headline)
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: -15){
+                        HStack{
                             ForEach(words, id: \.self) { word in
                                 WordCard(word: word)
                             }
@@ -94,9 +107,12 @@ struct PECS: View {
                                     .padding(.horizontal)
                                 , alignment: .leading
                             )
-                            .padding()
-                        Image(systemName: "speaker.fill") // Settings icon
-                            .font(.title2)
+                            .padding(.top, 10)
+                        
+                        Image("Speak")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .padding(.bottom, 15)
                         
                     }
                     

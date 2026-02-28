@@ -21,13 +21,13 @@ struct WordCard: View {
                 )
             
             Text(word.text)
-                .font(.system(size: 25, weight: .bold, design: .serif))
+                .font(.system(size: 20, weight: .bold, design: .serif))
                 .foregroundColor(.black)
                 // Using your asset for the text's outer glow
                 .shadow(color: Color("DustyOrange"), radius: 3, x: 1, y: 1)
                 .shadow(color: Color("DustyOrange"), radius: 3, x: -1, y: -1)
                 .multilineTextAlignment(.center)
-                .frame(width: 125, height: 125)
+                .frame(width: 100, height: 100)
                 .minimumScaleFactor(0.1)
                 .lineLimit(1)
                 .padding(5)

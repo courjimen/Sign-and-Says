@@ -23,7 +23,7 @@ struct IconCard: View {
                 )
             
             Text(icon.name.uppercased())
-                .font(.system(size: 25, weight: .bold))
+                .font(.system(size: 20, weight: .bold))
                 .multilineTextAlignment(.center)
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
@@ -31,7 +31,7 @@ struct IconCard: View {
                 .frame(maxWidth: .infinity)
         }
         .padding(15)
-        .frame(width: 175)
+        .frame(width: 125)
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color("LightGreen"))

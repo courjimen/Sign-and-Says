@@ -1,12 +1,13 @@
-//
-//  Questionnaire.swift
-//  Sign and Says
-//
-//  Created by Courey Jimenez on 2/25/26.
+/* LEFT TO DO
+ 
+Pass child's name from intake form through all questions (personalize it)
+Attach logic to pass selected answers to final shareable page
+Allow users to save, download, or share the final page through text/bluetooth
+Add remaining questions:
+ 
+ Need 4 questions and to pass the different answers/score each selection also need to pass child's name from profile page.
 
-//Need 4 questions and to pass the different answers/score each selection also need to pass child's name from profile page.
-
-/* QUESTIONS
+ QUESTIONS
  COMMUNICATION
  What best summarizes your child's communication style?
  - PECS
@@ -41,6 +42,9 @@
  Emotional Regulation
  Building Social Skills
  Turn Taking
+ 
+ STRETCH GOAL
+ Incorporate AI to analyze answers and create suggestions for parents/teachers
  */
 
 import SwiftUI
