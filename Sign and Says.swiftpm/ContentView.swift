@@ -8,7 +8,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(Color("Grey").opacity(0.5))
+                Color(Color("Grey").opacity(0.3))
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 40) {

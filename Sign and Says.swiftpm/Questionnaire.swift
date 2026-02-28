@@ -50,7 +50,7 @@ struct Questionnaire: View {
     
     var body: some View {
             ZStack {
-                Color(Color("Lilac").opacity(0.3))
+                Color(Color("Cafe").opacity(0.3))
                     .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .center) {
                     Text("What best summarizes your child's communication style?")

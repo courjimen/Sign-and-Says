@@ -17,7 +17,7 @@ struct ProfilePage: View {
     
     var body: some View {
         ZStack {
-            Color(Color("Grey").opacity(0.2))
+            Color(Color("Cafe").opacity(0.2))
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 Text("Build Your Child's Profile")
