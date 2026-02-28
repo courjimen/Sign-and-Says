@@ -57,7 +57,7 @@ struct Questionnaire: View {
                 Color(Color("Cafe").opacity(0.3))
                     .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .center) {
-                    Text("What best summarizes your child's communication style?")
+                    Text("What best summarizes your \(KidName) communication style?")
                         .font(.system(size: 25, weight: .bold))
                         .padding()
                     Text("Select the answer that best describes your child.")

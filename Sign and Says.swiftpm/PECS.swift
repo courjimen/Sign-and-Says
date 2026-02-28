@@ -13,17 +13,21 @@
  */
 
 import SwiftUI
+import AVFoundation
 
 struct PECS: View {
     @State private var searchText = ""
     @State private var requestText = ""
+    @State private var isSpeaking = false
+    
+    let synthesizer = AVSpeechSynthesizer()
     
     let icons: [Icon] = [Icon(name: "STOP", image: "StopSign"),
                          Icon(name: "BUBBLES", image: "Bubbles"),
                          Icon(name: "BATHROOM", image: "Bathroom"),
-                         Icon(name: "Food", image: "Eat"),
-                         Icon(name: "Books", image: "Books"),
-                         Icon(name: "Sleep", image: "Bed")
+                         Icon(name: "FOOD", image: "Eat"),
+                         Icon(name: "BOOKS", image: "Books"),
+                         Icon(name: "SLEEP", image: "Bed")
     ]
     
     let words: [Word] = [Word(text: "I"),
@@ -105,9 +109,9 @@ struct PECS: View {
                     //Request Strip
                     HStack {
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color("DustyOrange").opacity(0.5), lineWidth: 2)
+                            .stroke(isSpeaking ? Color.yellow: Color("DustyOrange").opacity(0.5), lineWidth: isSpeaking ? 4 : 2)
                             .frame(height: 60)
-                            .background(Color.white)
+                            .background(isSpeaking ? Color.yellow.opacity(0.2) : Color.white)
                             .cornerRadius(12)
                             .overlay(
                                 HStack {
@@ -119,9 +123,7 @@ struct PECS: View {
                                     
                                     //Clear button
                                     if !requestText.isEmpty {
-                                        Button(action: {
-                                            requestText = ""
-                                        }) {
+                                        Button(action: { requestText = ""}) {
                                             Image(systemName: "xmark.circle.fill")
                                                 .foregroundColor(.gray)
                                                 .font(.system(size: 22))
@@ -131,17 +133,34 @@ struct PECS: View {
                                 }
                             )
                             .padding(.top, 10)
-                        
-                        Image("Speak")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .padding(.bottom, 15)
-                        
+                            .animation(.easeInOut(duration: 0.2), value: isSpeaking)
+                        Button(action: speakRequest) {
+                            Image("Speak")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                        }
+                        .padding(.bottom, 5)
+                        .disabled(requestText.isEmpty)
                     }
-                    
                 }
                 .padding(.horizontal, 20)
             }
+        }
+    }
+    
+    func speakRequest() {
+        guard !requestText.isEmpty else { return }
+        
+        let utterance = AVSpeechUtterance(string: requestText)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.rate = 0.5
+        
+        // Visual feedback
+        isSpeaking = true
+        synthesizer.speak(utterance)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            isSpeaking = false
         }
     }
     

@@ -94,5 +94,5 @@ struct ProfilePage: View {
 }
 
 #Preview {
-    ProfilePage()
+    ProfilePage(KidName: "Courey")
 }

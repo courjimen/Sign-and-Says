@@ -2,6 +2,7 @@
  Finalize Menu (maybe decrease to 3 options: Profile, Sign & Speak)
  Sign section includes videos/imagery icons to sign commands
  Add remaining assets/icons for built in options
+ Fix logic to go to new popup screen to add icon from gallery.
  
  STRETCH GOALS
  Learn section will be a gamified version of signing
