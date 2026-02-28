@@ -39,8 +39,9 @@ struct ContentView: View {
                             .offset(x: -60, y: 150)
                         
                         // Speak (Right)
-                        CircleButton(title: "SPEAK", color: Color("LightGreen"))
-                            .offset(x: 80, y: 20)
+                        NavigationLink(destination: PECS()){
+                            CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                        }  .offset(x: 80, y: 20)
                         
                         // Profile (Bottom Right)
                         NavigationLink(destination: ProfilePage()){
