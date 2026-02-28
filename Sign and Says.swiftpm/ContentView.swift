@@ -1,6 +1,10 @@
 import SwiftUI
+import PhotosUI
 
 struct ContentView: View {
+    @State private var pickerItem: PhotosPickerItem?
+    @State private var selectedImage: Image?
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -47,10 +51,25 @@ struct ContentView: View {
                     .padding(.bottom, 200)
                     Spacer()
                     HStack {
-                        Image(systemName:"camera.circle.fill")
-                            .foregroundStyle(Color.black)
-                            .font(.system(size: 50, weight: .bold))
-                        //.padding(.trailing, 250)
+                        PhotosPicker(selection: $pickerItem, matching: .images) {
+                            if let selectedImage {
+                                selectedImage
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                            } else {
+                                Image(systemName: "photo.badge.plus")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                            }
+                        }
+                        .onChange(of: pickerItem) {
+                            Task {
+                                if let image = try? await pickerItem?.loadTransferable(type: Image.self) {
+                                    selectedImage = image                        }
+                            }
+                        }
                         Spacer()
                         
                         Image(systemName: "hand.rays.fill")
