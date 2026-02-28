@@ -19,6 +19,7 @@ struct PECS: View {
     @State private var searchText = ""
     @State private var requestText = ""
     @State private var isSpeaking = false
+    @State private var showEmptyAlert = false
     
     let synthesizer = AVSpeechSynthesizer()
     
@@ -140,16 +141,24 @@ struct PECS: View {
                                 .frame(width: 50, height: 50)
                         }
                         .padding(.bottom, 5)
-                        .disabled(requestText.isEmpty)
+                    
                     }
                 }
                 .padding(.horizontal, 20)
+            }
+            .alert("Empty Request", isPresented: $showEmptyAlert) {
+                Button("OK", role: .cancel) { }
+                } message: {
+                    Text("Please tap an icon to make a request.")
             }
         }
     }
     
     func speakRequest() {
-        guard !requestText.isEmpty else { return }
+        if requestText.isEmpty {
+                showEmptyAlert = true // Trigger the pop-up
+                return
+            }
         
         let utterance = AVSpeechUtterance(string: requestText)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
