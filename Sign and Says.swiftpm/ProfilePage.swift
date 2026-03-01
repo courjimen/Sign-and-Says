@@ -26,7 +26,7 @@ struct ProfilePage: View {
                         .padding(.top, 20)
                         .padding(.bottom, 10)
                     
-                    // --- PHOTO PICKER ---
+                    //Profile Pic
                     PhotosPicker(selection: $pickerItem, matching: .images) {
                         if let selectedImage {
                             selectedImage
@@ -56,7 +56,7 @@ struct ProfilePage: View {
                     Text("Add profile picture")
                         .padding(.bottom, 20)
                     
-                    // --- INPUT FIELDS ---
+                    
                     VStack(spacing: 20) {
                         // Name Field
                         VStack(alignment: .leading) {
@@ -65,7 +65,7 @@ struct ProfilePage: View {
                             underline
                         }
                         
-                        // Trigger Field (Wrapping enabled via axis: .vertical)
+                        // Trigger
                         VStack(alignment: .leading) {
                             TextField("What's your child's biggest trigger?", text: $Trigger, axis: .vertical)
                                 .lineLimit(1...4)
@@ -73,7 +73,7 @@ struct ProfilePage: View {
                             underline
                         }
                         
-                        // Fixations Field
+                        // Fixations
                         VStack(alignment: .leading) {
                             TextField("What are some of your child's fixations?", text: $Fixations, axis: .vertical)
                                 .lineLimit(1...4)
@@ -81,7 +81,7 @@ struct ProfilePage: View {
                             underline
                         }
                         
-                        // Coping Field
+                        // Coping
                         VStack(alignment: .leading) {
                             TextField("How does your child calm down?", text: $Coping, axis: .vertical)
                                 .lineLimit(1...4)
@@ -95,7 +95,6 @@ struct ProfilePage: View {
                         .font(.system(size: 20, weight: .bold))
                         .padding(.vertical, 20)
                     
-                    // --- NAVIGATION ---
                     NavigationLink(destination: Questionnaire(KidName: KidName, Trigger: Trigger, Fixations: Fixations, Coping: Coping, profileImage: uiImage)) {
                         Rectangle()
                             .frame(width: 175, height: 35)
@@ -103,20 +102,18 @@ struct ProfilePage: View {
                             .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black, lineWidth: 2))
                             .overlay(Text("Take Questionnaire").foregroundStyle(.black).bold())
                     }
-                    //.padding()
                 }
             }
         }
     }
     
-    // Helper view for the bottom line
     var underline: some View {
         Rectangle()
             .frame(height: 1)
             .foregroundColor(.gray).opacity(0.3)
     }
 }
-                
+
 #Preview {
     ProfilePage(KidName: "Courey")
 }

@@ -50,7 +50,6 @@ struct PECS: View {
                     .foregroundColor(isEditMode ? .white : .gray)
                     .clipShape(Capsule())
                     
-                    // Search Bar
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
@@ -96,7 +95,6 @@ struct PECS: View {
                     HStack {
                         Text("My PECS Icons")
                             .font(.headline)
-                        //Spacer()
                         if isEditMode {
                             Button(action: { showingAddSheet = true }) {
                                 Image(systemName: "plus.circle.fill")
@@ -227,7 +225,6 @@ struct PECS: View {
         isSpeaking = true
         synthesizer.speak(utterance)
         
-        // Simulating speaking duration feedback
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { isSpeaking = false }
     }
     
@@ -246,13 +243,12 @@ struct PECS: View {
                           Icon(name: "BOOKS", image: "Books"),
                           Icon(name: "SLEEP", image: "Bed")
                          ]),
-        words: .constant([
-            Word(text: "I"),
-            Word(text: "want"),
-            Word(text: "please"),
-            Word(text: "go"),
-            Word(text: "my"),
-            Word(text: "to")
+        words: .constant([Word(text: "I"),
+                          Word(text: "want"),
+                          Word(text: "please"),
+                          Word(text: "go"),
+                          Word(text: "my"),
+                          Word(text: "to")
         ])
     )
 }

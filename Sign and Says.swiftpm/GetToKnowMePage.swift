@@ -7,19 +7,19 @@ struct GetToKnowMePage: View {
     let Coping: String
     let results: [String: String]
     let profileImage: UIImage?
-
+    
     let columns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)
     ]
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
                 HStack{Text("All About \(KidName)")
                         .font(.title2)
                         .fontWeight(.black)
-                      
+                    
                     Spacer()
                     if let image = profileImage {
                         Image(uiImage: image)
@@ -32,54 +32,50 @@ struct GetToKnowMePage: View {
                     }
                 }
                 
-                    LazyVGrid(columns: columns, spacing: 12) {
-                        CategoryTile(title: "Triggers", content: Trigger, color: Color(red: 0.95, green: 0.85, blue: 0.6))
-                        CategoryTile(title: "Fixations", content: Fixations, color: Color(red: 0.75, green: 0.88, blue: 1.0))
-                        CategoryTile(title: "Play", content: results["How does \(KidName) like to play?"] ?? "Not selected", color: Color(red: 0.9, green: 0.85, blue: 0.98))
-                        CategoryTile(title: "Goals", content: results["What are your goals for \(KidName)?"] ?? "Not selected", color: Color(red: 0.92, green: 0.94, blue: 0.82))
-                    }
+                LazyVGrid(columns: columns, spacing: 12) {
+                    CategoryTile(title: "Triggers", content: Trigger, color: Color(red: 0.95, green: 0.85, blue: 0.6))
+                    CategoryTile(title: "Fixations", content: Fixations, color: Color(red: 0.75, green: 0.88, blue: 1.0))
+                    CategoryTile(title: "Play", content: results["How does \(KidName) like to play?"] ?? "Not selected", color: Color(red: 0.9, green: 0.85, blue: 0.98))
+                    CategoryTile(title: "Goals", content: results["What are your goals for \(KidName)?"] ?? "Not selected", color: Color(red: 0.92, green: 0.94, blue: 0.82))
+                }
+                
+                VStack(alignment: .leading, spacing: 5) {
+                    DetailBanner(title: "Communication Style",
+                                 content: results["What best summarizes \(KidName)'s communication style?"] ?? "Not selected",
+                                 icon: "message.fill")
                     
-                    // --- NEW SECTIONS BELOW THE GRID ---
-                    VStack(alignment: .leading, spacing: 5) {
-                        DetailBanner(title: "Communication Style",
-                                     content: results["What best summarizes \(KidName)'s communication style?"] ?? "Not selected",
-                                     icon: "message.fill")
-                        
-                        DetailBanner(title: "Soothing Items",
-                                     content: results["What are soothing items/things \(KidName) likes?"] ?? "Not selected",
-                                     icon: "sparkles")
-                        
-                        DetailBanner(title: "Thrives In",
-                                     content: results["What type of space does \(KidName) thrive in?"] ?? "Not selected",
-                                     icon: "house.fill")
-                        
-                        DetailBanner(title: "Coping Strategy",
-                                     content: Coping,
-                                     icon: "heart.fill")
-                    }
-                   // .padding()
+                    DetailBanner(title: "Soothing Items",
+                                 content: results["What are soothing items/things \(KidName) likes?"] ?? "Not selected",
+                                 icon: "sparkles")
+                    
+                    DetailBanner(title: "Thrives In",
+                                 content: results["What type of space does \(KidName) thrive in?"] ?? "Not selected",
+                                 icon: "house.fill")
+                    
+                    DetailBanner(title: "Coping Strategy",
+                                 content: Coping,
+                                 icon: "heart.fill")
                 }
-                .padding(10)
-                .background(Color(red: 0.98, green: 0.94, blue: 0.88))
-                .cornerRadius(20)
-                .padding(.horizontal)
-
-                ShareLink(item: "Important Info for \(KidName)") {
-                    Label("Share Profile", systemImage: "square.and.arrow.up")
-                        .font(.headline)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("BabyBlue"))
-                        .foregroundColor(.black)
-                        .cornerRadius(12)
-                }
-                .padding(.horizontal)
             }
+            .padding(10)
+            .background(Color(red: 0.98, green: 0.94, blue: 0.88))
+            .cornerRadius(20)
+            .padding(.horizontal)
+            
+            ShareLink(item: "Important Info for \(KidName)") {
+                Label("Share Profile", systemImage: "square.and.arrow.up")
+                    .font(.headline)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color("BabyBlue"))
+                    .foregroundColor(.black)
+                    .cornerRadius(12)
+            }
+            .padding(.horizontal)
         }
     }
+}
 
-
-// Reusable Banner for full-width details
 struct DetailBanner: View {
     let title: String
     let content: String
@@ -108,12 +104,11 @@ struct DetailBanner: View {
     }
 }
 
-// --- UPDATED CATEGORY TILE ---
 struct CategoryTile: View {
     let title: String
     let content: String
     let color: Color
-
+    
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
             Text(title)
@@ -131,6 +126,7 @@ struct CategoryTile: View {
         .cornerRadius(0)
     }
 }
+
 #Preview {
     GetToKnowMePage(
         KidName: "Courey",

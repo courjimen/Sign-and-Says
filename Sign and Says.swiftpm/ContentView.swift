@@ -1,6 +1,4 @@
 /* LEFT TO DO
- Sign section includes videos/imagery icons to sign commands
- Add remaining assets/icons for built in options
  
  STRETCH GOALS
  Learn section will be a gamified version of signing
@@ -15,8 +13,6 @@ import PhotosUI
 struct ContentView: View {
     @State private var pickerItem: PhotosPickerItem?
     @State private var selectedImage: Image?
-    
-    // NEW: Variables to track the board data and pop-up state
     @State private var showingAddSheet = false
     @State private var navigateToPecs =  false
     @State private var navigateToSign =  false
@@ -46,7 +42,7 @@ struct ContentView: View {
                 NavigationLink(destination: PECS(icons: $icons, words: $words), isActive: $navigateToPecs) {
                     EmptyView()
                 }
-                VStack(spacing: 40) {
+                VStack() {
                     // Header Section
                     VStack(spacing: 8) {
                         Text("Sign and Says")
@@ -55,41 +51,39 @@ struct ContentView: View {
                             .font(.title2)
                             .foregroundColor(.secondary)
                     }
-                    .padding(.top, 50)
-                    
-                    Spacer()
+                    .padding()
                     
                     // The Bubble Menu
                     ZStack {
                         // Learn (Top)
-                        CircleButton(title: "LEARN", color: Color("DustyOrange"))
-                            .offset(x: 0, y: -70)
+                        //CircleButton(title: "LEARN", color: Color("DustyOrange"))
+                        //  .offset(x: 0, y: -70)
                         
                         // Notes (Left)
-                        CircleButton(title: "NOTES", color: Color("BabyBlue"))
-                            .offset(x: -80, y: 20)
+                        //CircleButton(title: "NOTES", color: Color("BabyBlue"))
+                        //.offset(x: -80, y: 20)
                         
                         // Sign (Bottom Left)
-                        NavigationLink(destination: Sign()){
-                            CircleButton(title: "SIGN", color: Color("Lilac"))}
-                        .offset(x: -60, y: 150)
-                        
-                        // Speak (Right)
-                        NavigationLink(destination: PECS(icons: $icons, words: $words)) {
-                            CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                        VStack{
+                            // Speak (Right)
+                            NavigationLink(destination: PECS(icons: $icons, words: $words)) {
+                                CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                            }
+                            .padding()
+                            NavigationLink(destination: Sign()){
+                                CircleButton(title: "SIGN", color: Color("Lilac"))}
+                            .padding()
+                            
+                            // Profile (Bottom Right)
+                            NavigationLink(destination: ProfilePage()){
+                                CircleButton(title: "PROFILE", color: Color("Cafe"))
+                            }
+                            .padding()
                         }
-                        .offset(x: 80, y: 20)
-                        
-                        // Profile (Bottom Right)
-                        NavigationLink(destination: ProfilePage()){
-                            CircleButton(title: "PROFILE", color: Color("Cafe"))
-                        }
-                        .offset(x: 60, y: 150)
                     }
-                    .padding(.bottom, 200)
+                    .padding()
                     Spacer()
                     HStack {
-                        // Standard Button to open the sheet immediately
                         Button(action: { showingAddSheet = true }) {
                             ZStack {
                                 Circle()
@@ -105,7 +99,6 @@ struct ContentView: View {
                         .sheet(isPresented: $showingAddSheet, onDismiss: {
                             navigateToPecs = true
                         }) {
-                            // Pass your bindings here
                             AddIconSheet(words: $words, icons: $icons)
                         }
                         
@@ -134,7 +127,7 @@ struct CircleButton: View {
         ZStack {
             Circle()
                 .fill(color)
-                .frame(width: 100, height: 100)
+                .frame(width: 125, height: 125)
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
             
             Text(title)

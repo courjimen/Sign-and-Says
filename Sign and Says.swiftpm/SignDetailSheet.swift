@@ -1,9 +1,3 @@
-//
-//  SignDetailSheet.swift
-//  Sign and Says
-//
-//  Created by Courey Jimenez on 2/28/26.
-//
 import SwiftUI
 import AVFoundation
 
@@ -22,8 +16,7 @@ struct SignDetailSheet: View {
                 .font(.system(size: 40, weight: .black))
                 .padding(.top, 20)
                 .foregroundColor(Color("Cafe"))
-
-            // THE LARGE ANIMATION
+            
             ZStack {
                 RoundedRectangle(cornerRadius: 30)
                     .fill(Color("Grey").opacity(0.1))
@@ -35,7 +28,7 @@ struct SignDetailSheet: View {
                         .scaledToFit()
                         .frame(width: 250, height: 250)
                 } animation: { _ in
-                    .easeInOut(duration: 0.7)
+                        .easeInOut(duration: 0.7)
                 }
             }
             

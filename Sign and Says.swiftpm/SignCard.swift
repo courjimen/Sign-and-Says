@@ -1,9 +1,3 @@
-//
-//  SignCard.swift
-//  Sign and Says
-//
-//  Created by Courey Jimenez on 2/28/26.
-//
 import SwiftUI
 
 struct SignCard: View {

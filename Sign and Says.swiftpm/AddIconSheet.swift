@@ -6,14 +6,13 @@ struct AddIconSheet: View {
     @Binding var words: [Word]
     @Binding var icons: [Icon]
     
-    // NEW: Accepts an image if picked from the main screen
     var preSelectedImage: UIImage?
     
     @State private var mode = 0
     @State private var textInput = ""
     @State private var selectedItem: PhotosPickerItem?
     @State private var previewImage: UIImage?
-
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -60,9 +59,8 @@ struct AddIconSheet: View {
                 }
                 .disabled(textInput.isEmpty || (mode == 1 && previewImage == nil))
             }
-            .navigationTitle("Add to Board")
+            .navigationTitle("Add Word or Icon")
             .onAppear {
-                // 4. If an image was passed in, set it as the preview and switch to Icon mode
                 if let preSelectedImage {
                     self.previewImage = preSelectedImage
                     self.mode = 1

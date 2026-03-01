@@ -1,9 +1,3 @@
-//
-//  IconCard.swift
-//  Sign and Says
-//
-//  Created by Courey Jimenez on 2/22/26.
-
 import SwiftUI
 
 struct IconCard: View {
@@ -19,21 +13,21 @@ struct IconCard: View {
                 .aspectRatio(1, contentMode: .fit)
                 .overlay(
                     Group {
-                    if let uiImage = icon.uiImage {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                    } else {
-                        Image(icon.image)
-                            .resizable()
-                            .scaledToFit()
-                            .padding(10)
+                        if let uiImage = icon.uiImage {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFill()
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                        } else {
+                            Image(icon.image)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(10)
+                        }
                     }
-        }
-        .scaledToFit()
-        .padding(10)
-        )
+                        .scaledToFit()
+                        .padding(10)
+                )
             
             Text(icon.name.uppercased())
                 .font(.system(size: 16, weight: .bold))
@@ -56,11 +50,10 @@ struct IconCard: View {
         )
         .padding()
         .onTapGesture {
-        if !isEditMode {
-            onTap()
+            if !isEditMode {
+                onTap()
             }
         }
-       // .frame(width: 125)
     }
 }
 
