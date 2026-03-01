@@ -3,11 +3,12 @@
 //  Sign and Says
 //
 //  Created by Courey Jimenez on 2/22/26.
-//
+
 import SwiftUI
 
 struct IconCard: View {
     let icon: Icon
+    let isEditMode: Bool
     let onTap: () -> Void
     
     var body: some View {
@@ -17,11 +18,20 @@ struct IconCard: View {
                 .shadow(color: Color("DustyOrange"), radius: 10, x: 0, y: 10)
                 .aspectRatio(1, contentMode: .fit)
                 .overlay(
-                    Image(icon.image)
-                        .resizable()
-                        .scaledToFit()
-                        .padding(10)
-                )
+                    Group {
+                    if let uiImage = icon.uiImage {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                    } else {
+                        Image(icon.image)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(10)
+                    }
+        }
+        .scaledToFit()
+        .padding(10)
+        )
             
             Text(icon.name.uppercased())
                 .font(.system(size: 20, weight: .bold))
@@ -44,12 +54,14 @@ struct IconCard: View {
         )
         .padding()
         .onTapGesture {
+        if !isEditMode {
             onTap()
+            }
         }
        // .frame(width: 125)
     }
 }
 
 #Preview {
-    IconCard(icon: Icon(name: "Stop", image: "StopSign"), onTap: {})
+    IconCard(icon: Icon(name: "Stop", image: "StopSign"), isEditMode: true, onTap: {})
 }

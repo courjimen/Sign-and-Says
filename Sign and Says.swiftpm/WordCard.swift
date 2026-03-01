@@ -7,6 +7,7 @@
 import SwiftUI
 struct WordCard: View {
     let word: Word
+    let isEditMode: Bool
     let onTap: () -> Void
     
     var body: some View {
@@ -34,7 +35,7 @@ struct WordCard: View {
                 .padding(5)
         }
         .onTapGesture {
-            onTap()
+            if !isEditMode { onTap() }
         }
     }
 }
@@ -42,6 +43,6 @@ struct WordCard: View {
 #Preview {
     ZStack {
         Color.gray.opacity(0.1).ignoresSafeArea()
-        WordCard(word: Word(text: "Please"), onTap: {})
+        WordCard(word: Word(text: "Please"), isEditMode: true, onTap: {})
     }
 }

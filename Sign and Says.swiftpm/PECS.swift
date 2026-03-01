@@ -1,11 +1,5 @@
 /* LEFT TO DO
- Drag and drop words/icons
- Allow edit button to delete or add new words/icons
- - add logic for typable word icons to be created by user
- - add logic for images to be added by user and icon to be created
- Add voice to text for request bar
- Make search bar functional
- Create adjusted size for iPad/Tablet users
+ Create adjustable size for iPad/Tablet users
  
  STRETCH GOAL
  Add 3D hand model to sign the request bar sentence using AI (foundations)
@@ -14,30 +8,40 @@
 
 import SwiftUI
 import AVFoundation
+import PhotosUI
 
 struct PECS: View {
     @State private var searchText = ""
     @State private var requestText = ""
     @State private var isSpeaking = false
     @State private var showEmptyAlert = false
+    @State private var isEditMode = false
+    @State private var showingAddSheet = false
     
     let synthesizer = AVSpeechSynthesizer()
     
-    let icons: [Icon] = [Icon(name: "STOP", image: "StopSign"),
-                         Icon(name: "BUBBLES", image: "Bubbles"),
-                         Icon(name: "BATHROOM", image: "Bathroom"),
-                         Icon(name: "FOOD", image: "Eat"),
-                         Icon(name: "BOOKS", image: "Books"),
-                         Icon(name: "SLEEP", image: "Bed")
+    @State private var icons: [Icon] = [Icon(name: "STOP", image: "StopSign"),
+                                        Icon(name: "BUBBLES", image: "Bubbles"),
+                                        Icon(name: "BATHROOM", image: "Bathroom"),
+                                        Icon(name: "FOOD", image: "Eat"),
+                                        Icon(name: "BOOKS", image: "Books"),
+                                        Icon(name: "SLEEP", image: "Bed")
     ]
     
-    let words: [Word] = [Word(text: "I"),
-                         Word(text: "want"),
-                         Word(text: "please"),
-                         Word(text: "go"),
-                         Word(text: "my"),
-                         Word(text: "to")
+    @State private var words: [Word] = [Word(text: "I"),
+                                        Word(text: "want"),
+                                        Word(text: "please"),
+                                        Word(text: "go"),
+                                        Word(text: "my"),
+                                        Word(text: "to")
     ]
+    
+    var filteredWords: [Word] {
+        searchText.isEmpty ? words : words.filter { $0.text.localizedCaseInsensitiveContains(searchText) }
+    }
+    var filteredIcons: [Icon] {
+        searchText.isEmpty ? icons : icons.filter { $0.name.localizedCaseInsensitiveContains(searchText)}
+    }
     
     var body: some View {
         ZStack {
@@ -45,14 +49,16 @@ struct PECS: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 0) {
-                // --- TOP BAR ---
+                // Edit & Search Bar
                 HStack(spacing: 15) {
-                    Button("Edit") {
-                        // Action for edit mode
+                    Button(isEditMode ? "Done" : "Edit") {
+                        withAnimation(.spring()) {
+                            isEditMode.toggle()
+                        }
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(Color(white: 0.8))
-                    .foregroundColor(.gray)
+                    .tint(isEditMode ? Color.blue : Color.white)
+                    .foregroundColor(isEditMode ? .white : .gray)
                     .clipShape(Capsule())
                     
                     // Search Bar
@@ -69,43 +75,89 @@ struct PECS: View {
                 .padding()
                 
                 VStack(alignment: .leading) {
-                    Text("My Helper Words:")
-                        .font(.headline)
+                    HStack {
+                        Text("My Helper Words")
+                            .font(.headline)
+                        if isEditMode {
+                            Button(action: { showingAddSheet = true }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                                    .font(.title2)
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack{
-                            ForEach(words, id: \.self) { word in
-                                WordCard(word: word) {
-                                    handleTap(text: word.text)
+                            ForEach(filteredWords) { word in
+                                ZStack(alignment: .topTrailing) {
+                                    WordCard(word: word, isEditMode: isEditMode) {
+                                        handleTap(text: word.text)
+                                    }
+                                    if isEditMode {
+                                        DeleteButton { words.removeAll(where: { $0.id == word.id }) }
+                                    }
                                 }
-                                
                             }
                         }
-                        .padding(.bottom, 5)
+                        .padding(.vertical, 5)
                     }
                     
-                    Text("My PECS Icons:")
-                        .font(.headline)
+                    //Icon Section
+                    HStack {
+                        Text("My PECS Icons")
+                            .font(.headline)
+                        //Spacer()
+                        if isEditMode {
+                            Button(action: { showingAddSheet = true }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                                    .font(.title2)
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
                     
-                    ScrollView(.horizontal) {
-                        HStack(spacing: -15) {
-                            ForEach(icons.prefix(icons.count/2), id: \.self) { icon in
-                                IconCard(icon: icon) {
-                                    handleTap(text: icon.name)
+                    let midIndex = filteredIcons.count / 2
+                    let topRow = filteredIcons.prefix(midIndex)
+                    let bottomRow = filteredIcons.suffix(from: midIndex)
+                    
+                    VStack(spacing: -10) {
+                        //Top Row
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: -15) {
+                                ForEach(topRow) { icon in
+                                    ZStack(alignment: .topTrailing) {
+                                        IconCard(icon: icon, isEditMode: isEditMode) {
+                                            handleTap(text: icon.name)
+                                        }
+                                        if isEditMode {
+                                            DeleteButton { icons.removeAll(where: { $0.id == icon.id }) }
+                                        }
+                                    }
                                 }
                             }
+                            .padding(.horizontal)
                         }
-                    }
-                    .padding(-10)
-                    ScrollView(.horizontal) {
-                        HStack(spacing: -15) {
-                            ForEach(icons.suffix(from: icons.count/2), id: \.self) { icon in
-                                IconCard(icon: icon) {
-                                    handleTap(text: icon.name)
+                        
+                        // Bottom Row
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: -15) {
+                                ForEach(bottomRow) { icon in
+                                    ZStack(alignment: .topTrailing) {
+                                        IconCard(icon: icon, isEditMode: isEditMode) {
+                                            handleTap(text: icon.name)
+                                        }
+                                        if isEditMode {
+                                            DeleteButton { icons.removeAll(where: { $0.id == icon.id }) }
+                                        }
+                                    }
                                 }
                             }
+                            .padding(.horizontal)
                         }
                     }
-                    .padding(-10)
+                    .padding(.horizontal, -20)
                     
                     //Request Strip
                     HStack {
@@ -116,72 +168,85 @@ struct PECS: View {
                             .cornerRadius(12)
                             .overlay(
                                 HStack {
-                                    Text(requestText.isEmpty ? "Tap icons to make request..." : requestText)
+                                    Text(requestText.isEmpty ? "Tap icons..." : requestText)
                                         .foregroundColor(requestText.isEmpty ? .gray : .black)
                                         .padding(.horizontal)
-                                    
                                     Spacer()
-                                    
-                                    //Clear button
                                     if !requestText.isEmpty {
-                                        Button(action: { requestText = ""}) {
+                                        Button(action: { requestText = "" }) {
                                             Image(systemName: "xmark.circle.fill")
                                                 .foregroundColor(.gray)
                                                 .font(.system(size: 22))
-                                                .padding(.trailing, 10)
                                         }
+                                        .padding(.trailing, 10)
                                     }
                                 }
                             )
-                            .padding(.top, 10)
-                            .animation(.easeInOut(duration: 0.2), value: isSpeaking)
+                        
                         Button(action: speakRequest) {
                             Image("Speak")
                                 .resizable()
                                 .frame(width: 50, height: 50)
                         }
-                        .padding(.bottom, 5)
-                    
                     }
+                    .padding(.bottom, 20)
                 }
                 .padding(.horizontal, 20)
             }
-            .alert("Empty Request", isPresented: $showEmptyAlert) {
-                Button("OK", role: .cancel) { }
-                } message: {
-                    Text("Please tap an icon to make a request.")
+        }
+        .sheet(isPresented: $showingAddSheet) {
+            AddIconSheet(words: $words, icons: $icons)
+        }
+        .alert("Empty Request", isPresented: $showEmptyAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Please tap an icon to make a request.")
+        }
+    }
+    @ViewBuilder
+    func DeleteButton(action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: "minus.circle.fill")
+                .foregroundColor(.red)
+                .background(Color.white.clipShape(Circle()))
+                .font(.title2)
+        }
+        .offset(x: -10, y: 3)
+    }
+    
+    @ViewBuilder
+    func AddCircleButton(action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 25))
+                    .foregroundColor(.green)
+                Text("ADD").font(.caption).bold().foregroundColor(.green)
             }
+            .frame(width: 50, height: 50)
+            .background(Color.white)
+            .clipShape(Circle())
+            .shadow(radius: 2)
         }
     }
     
     func speakRequest() {
-        if requestText.isEmpty {
-                showEmptyAlert = true // Trigger the pop-up
-                return
-            }
-        
+        if requestText.isEmpty { showEmptyAlert = true; return }
         let utterance = AVSpeechUtterance(string: requestText)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         utterance.rate = 0.5
-        
-        // Visual feedback
         isSpeaking = true
         synthesizer.speak(utterance)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            isSpeaking = false
-        }
+        // Simulating speaking duration feedback
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { isSpeaking = false }
     }
     
     func handleTap(text: String) {
-        if requestText.isEmpty {
-            requestText = text
-        } else {
-            requestText += " \(text)"
-        }
+        if requestText.isEmpty { requestText = text }
+        else { requestText += " \(text)" }
     }
 }
-
 
 #Preview {
     PECS()
