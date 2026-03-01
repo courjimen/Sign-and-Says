@@ -21,20 +21,25 @@ struct Sign: View {
     var body: some View {
         ZStack{
             Color(Color("LightGreen").opacity(0.3)).edgesIgnoringSafeArea(.all)
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 20) {
-                    ForEach(aslSigns) { sign in
-                        SignCard(aslSign: sign) {
-                            playSignSound(name: sign.name)
-                            selectedSign = sign
+            VStack {
+                Text("Practice ASL")
+                    .font(.title2)
+                    .foregroundColor(.secondary)
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 20) {
+                        ForEach(aslSigns) { sign in
+                            SignCard(aslSign: sign) {
+                                playSignSound(name: sign.name)
+                                selectedSign = sign
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
-            }
-            .sheet(item: $selectedSign) { sign in
-                SignDetailSheet(aslSign: sign)
-                    .presentationDetents([.medium, .large])
+                .sheet(item: $selectedSign) { sign in
+                    SignDetailSheet(aslSign: sign)
+                        .presentationDetents([.medium, .large])
+                }
             }
         }
     }

@@ -103,36 +103,39 @@ struct ContentView: View {
                         }
                         
                         Spacer()
-                        
-                        Image(systemName: "hand.rays.fill")
-                            .foregroundStyle(Color.black)
-                            .font(.system(size: 50, weight: .bold))
+                        NavigationLink {
+                            Onboarding(hasCompletedOnboarding: .constant(false))
+                        } label: {
+                            Image(systemName: "questionmark.circle")
+                                .foregroundStyle(.black)
+                                .font(.system(size: 50, weight: .bold))
+                        }
                     }
                     .padding(.all, 40)
                 }
-            }
-            
-            .sheet(isPresented: $showingAddSheet) {
-                AddIconSheet(words: $words, icons: $icons, preSelectedImage: externalUiImage)
+                
+                .sheet(isPresented: $showingAddSheet) {
+                    AddIconSheet(words: $words, icons: $icons, preSelectedImage: externalUiImage)
+                }
             }
         }
     }
-}
-
-struct CircleButton: View {
-    let title: String
-    let color: Color
     
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(color)
-                .frame(width: 125, height: 125)
-                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
-            
-            Text(title)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(.black)
+    struct CircleButton: View {
+        let title: String
+        let color: Color
+        
+        var body: some View {
+            ZStack {
+                Circle()
+                    .fill(color)
+                    .frame(width: 125, height: 125)
+                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
+                
+                Text(title)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.black)
+            }
         }
     }
 }
