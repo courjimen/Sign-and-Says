@@ -18,6 +18,7 @@ struct PECS: View {
     @State private var isEditMode = false
     @State private var showingAddSheet = false
     
+    
     let synthesizer = AVSpeechSynthesizer()
     
     @State private var icons: [Icon] = [Icon(name: "STOP", image: "StopSign"),
@@ -100,7 +101,7 @@ struct PECS: View {
                                 }
                             }
                         }
-                        .padding(.vertical, 5)
+                        .padding(.bottom, 15)
                     }
                     
                     //Icon Section

@@ -18,11 +18,16 @@ struct ContentView: View {
     @State private var pickerItem: PhotosPickerItem?
     @State private var selectedImage: Image?
     
+    // NEW: Variables to track the board data and pop-up state
+    @State private var showingAddSheet = false
+    @State private var words: [Word] = []
+    @State private var icons: [Icon] = []
+    @State private var externalUiImage: UIImage? // Holds the image picked from main screen
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(Color("Grey").opacity(0.3))
-                    .edgesIgnoringSafeArea(.all)
+                Color(Color("Grey").opacity(0.3)).edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 40) {
                     // Header Section
@@ -38,10 +43,10 @@ struct ContentView: View {
                     Spacer()
                     
                     // The Bubble Menu
-                    ZStack { 
+                    ZStack {
                         // Learn (Top)
                         CircleButton(title: "LEARN", color: Color("DustyOrange"))
-                          .offset(x: 0, y: -70)
+                            .offset(x: 0, y: -70)
                         
                         // Notes (Left)
                         CircleButton(title: "NOTES", color: Color("BabyBlue"))
@@ -65,25 +70,24 @@ struct ContentView: View {
                     .padding(.bottom, 200)
                     Spacer()
                     HStack {
-                        PhotosPicker(selection: $pickerItem, matching: .images) {
-                            if let selectedImage {
-                                selectedImage
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 50)
-                            } else {
-                                Image(systemName: "photo.badge.plus")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 50)
+                        // Standard Button to open the sheet immediately
+                        Button(action: { showingAddSheet = true }) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color("BabyBlue"))
+                                    .frame(width: 55, height: 55)
+                                    .shadow(radius: 2)
+                                
+                                Image(systemName: "plus")
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundColor(.black)
                             }
                         }
-                        .onChange(of: pickerItem) {
-                            Task {
-                                if let image = try? await pickerItem?.loadTransferable(type: Image.self) {
-                                    selectedImage = image                        }
-                            }
+                        .sheet(isPresented: $showingAddSheet) {
+                            // Pass your bindings here
+                            AddIconSheet(words: $words, icons: $icons)
                         }
+
                         Spacer()
                         
                         Image(systemName: "hand.rays.fill")
@@ -92,6 +96,10 @@ struct ContentView: View {
                     }
                     .padding(.all, 40)
                 }
+            }
+        
+            .sheet(isPresented: $showingAddSheet) {
+                AddIconSheet(words: $words, icons: $icons, preSelectedImage: externalUiImage)
             }
         }
     }

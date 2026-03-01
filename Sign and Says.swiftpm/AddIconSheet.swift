@@ -6,7 +6,10 @@ struct AddIconSheet: View {
     @Binding var words: [Word]
     @Binding var icons: [Icon]
     
-    @State private var mode = 0 // 0 = Word, 1 = Icon
+    // NEW: Accepts an image if picked from the main screen
+    var preSelectedImage: UIImage?
+    
+    @State private var mode = 0
     @State private var textInput = ""
     @State private var selectedItem: PhotosPickerItem?
     @State private var previewImage: UIImage?
@@ -19,15 +22,9 @@ struct AddIconSheet: View {
                     Text("PECS Icon").tag(1)
                 }
                 .pickerStyle(.segmented)
-                // Optional: Clear image/text when switching modes
-                .onChange(of: mode) { _, _ in
-                    textInput = ""
-                    previewImage = nil
-                    selectedItem = nil
-                }
                 
                 Section(header: Text("Details")) {
-                    TextField(mode == 0 ? "Enter Word (e.g. 'More')" : "Icon Label (e.g. 'Apple')", text: $textInput)
+                    TextField(mode == 0 ? "Enter Word" : "Icon Label", text: $textInput)
                     
                     if mode == 1 {
                         PhotosPicker(selection: $selectedItem, matching: .images) {
@@ -42,15 +39,11 @@ struct AddIconSheet: View {
                                 }
                             }
                         }
-                        // FIXED: iOS 17 Syntax for onChange
                         .onChange(of: selectedItem) { _, newItem in
                             Task {
                                 if let data = try? await newItem?.loadTransferable(type: Data.self),
-                                   let uiImage = UIImage(data: data) {
-                                    // Ensure UI update happens on the main thread
-                                    await MainActor.run {
-                                        previewImage = uiImage
-                                    }
+                                   let ui = UIImage(data: data) {
+                                    await MainActor.run { previewImage = ui }
                                 }
                             }
                         }
@@ -61,19 +54,18 @@ struct AddIconSheet: View {
                     if mode == 0 {
                         words.append(Word(text: textInput))
                     } else {
-                        // Ensure Icon model supports uiImage
                         icons.append(Icon(name: textInput, image: "photo", uiImage: previewImage))
                     }
                     dismiss()
                 }
-                // Disable button if validation fails
                 .disabled(textInput.isEmpty || (mode == 1 && previewImage == nil))
-                .frame(maxWidth: .infinity, alignment: .center)
             }
             .navigationTitle("Add to Board")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+            .onAppear {
+                // 4. If an image was passed in, set it as the preview and switch to Icon mode
+                if let preSelectedImage {
+                    self.previewImage = preSelectedImage
+                    self.mode = 1
                 }
             }
         }
