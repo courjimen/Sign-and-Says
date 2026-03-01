@@ -5,7 +5,7 @@ struct Icon:  Identifiable, Hashable {
     let id = UUID()
     var name: String
     var image: String
-    var uiImage: UIImage? = nil
+    var uiImage: UIImage?
 }
 
 struct Word: Identifiable, Hashable {

@@ -1,5 +1,6 @@
 /* LEFT TO DO
  Create adjustable size for iPad/Tablet users
+ Add options for spanish/bilingual
  
  STRETCH GOAL
  Add 3D hand model to sign the request bar sentence using AI (foundations)
@@ -18,24 +19,11 @@ struct PECS: View {
     @State private var isEditMode = false
     @State private var showingAddSheet = false
     
+    @Binding var icons: [Icon]
+    @Binding var words: [Word]
     
     let synthesizer = AVSpeechSynthesizer()
     
-    @State private var icons: [Icon] = [Icon(name: "STOP", image: "StopSign"),
-                                        Icon(name: "BUBBLES", image: "Bubbles"),
-                                        Icon(name: "BATHROOM", image: "Bathroom"),
-                                        Icon(name: "FOOD", image: "Eat"),
-                                        Icon(name: "BOOKS", image: "Books"),
-                                        Icon(name: "SLEEP", image: "Bed")
-    ]
-    
-    @State private var words: [Word] = [Word(text: "I"),
-                                        Word(text: "want"),
-                                        Word(text: "please"),
-                                        Word(text: "go"),
-                                        Word(text: "my"),
-                                        Word(text: "to")
-    ]
     
     var filteredWords: [Word] {
         searchText.isEmpty ? words : words.filter { $0.text.localizedCaseInsensitiveContains(searchText) }
@@ -250,5 +238,21 @@ struct PECS: View {
 }
 
 #Preview {
-    PECS()
+    PECS(
+        icons: .constant([Icon(name: "STOP", image: "StopSign"),
+                          Icon(name: "BUBBLES", image: "Bubbles"),
+                          Icon(name: "BATHROOM", image: "Bathroom"),
+                          Icon(name: "FOOD", image: "Eat"),
+                          Icon(name: "BOOKS", image: "Books"),
+                          Icon(name: "SLEEP", image: "Bed")
+                         ]),
+        words: .constant([
+            Word(text: "I"),
+            Word(text: "want"),
+            Word(text: "please"),
+            Word(text: "go"),
+            Word(text: "my"),
+            Word(text: "to")
+        ])
+    )
 }

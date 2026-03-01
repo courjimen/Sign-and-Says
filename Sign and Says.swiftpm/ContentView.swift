@@ -20,15 +20,33 @@ struct ContentView: View {
     
     // NEW: Variables to track the board data and pop-up state
     @State private var showingAddSheet = false
-    @State private var words: [Word] = []
-    @State private var icons: [Icon] = []
-    @State private var externalUiImage: UIImage? // Holds the image picked from main screen
+    @State private var navigateToPecs =  false
+    
+    @State private var icons: [Icon] = [Icon(name: "STOP", image: "StopSign"),
+                                        Icon(name: "BUBBLES", image: "Bubbles"),
+                                        Icon(name: "BATHROOM", image: "Bathroom"),
+                                        Icon(name: "FOOD", image: "Eat"),
+                                        Icon(name: "BOOKS", image: "Books"),
+                                        Icon(name: "SLEEP", image: "Bed")
+    ]
+    
+    @State private var words: [Word] = [Word(text: "I"),
+                                        Word(text: "want"),
+                                        Word(text: "please"),
+                                        Word(text: "go"),
+                                        Word(text: "my"),
+                                        Word(text: "to")
+    ]
+    
+    @State private var externalUiImage: UIImage?
     
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(Color("Grey").opacity(0.3)).edgesIgnoringSafeArea(.all)
-                
+                NavigationLink(destination: PECS(icons: $icons, words: $words), isActive: $navigateToPecs) {
+                                    EmptyView()
+                                }
                 VStack(spacing: 40) {
                     // Header Section
                     VStack(spacing: 8) {
@@ -57,9 +75,10 @@ struct ContentView: View {
                             .offset(x: -60, y: 150)
                         
                         // Speak (Right)
-                        NavigationLink(destination: PECS()){
-                            CircleButton(title: "SPEAK", color: Color("LightGreen"))
-                        }  .offset(x: 80, y: 20)
+                        NavigationLink(destination: PECS(icons: $icons, words: $words)) {
+                                                CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                                            }
+                          .offset(x: 80, y: 20)
                         
                         // Profile (Bottom Right)
                         NavigationLink(destination: ProfilePage()){
@@ -83,7 +102,9 @@ struct ContentView: View {
                                     .foregroundColor(.black)
                             }
                         }
-                        .sheet(isPresented: $showingAddSheet) {
+                        .sheet(isPresented: $showingAddSheet, onDismiss: {
+                            navigateToPecs = true
+                        }) {
                             // Pass your bindings here
                             AddIconSheet(words: $words, icons: $icons)
                         }

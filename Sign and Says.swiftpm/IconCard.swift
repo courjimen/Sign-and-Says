@@ -22,6 +22,8 @@ struct IconCard: View {
                     if let uiImage = icon.uiImage {
                         Image(uiImage: uiImage)
                             .resizable()
+                            .scaledToFill()
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
                     } else {
                         Image(icon.image)
                             .resizable()
@@ -34,15 +36,15 @@ struct IconCard: View {
         )
             
             Text(icon.name.uppercased())
-                .font(.system(size: 20, weight: .bold))
+                .font(.system(size: 16, weight: .bold))
                 .multilineTextAlignment(.center)
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity)
         }
-        .padding(15)
-        .frame(width: 125)
+        .padding(12)
+        .frame(width: 120, height: 160)
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color("LightGreen"))
