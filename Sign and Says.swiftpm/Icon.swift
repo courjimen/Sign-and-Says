@@ -18,3 +18,10 @@ struct Question: Identifiable {
     let title: String
     let options: [String]
 }
+
+struct ASLSign: Identifiable {
+    let id = UUID()
+    let name: String
+    let frames: [String]
+    let staticThumb: String
+}

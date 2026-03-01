@@ -40,7 +40,7 @@ struct GetToKnowMePage: View {
                     }
                     
                     // --- NEW SECTIONS BELOW THE GRID ---
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 5) {
                         DetailBanner(title: "Communication Style",
                                      content: results["What best summarizes \(KidName)'s communication style?"] ?? "Not selected",
                                      icon: "message.fill")
@@ -59,7 +59,7 @@ struct GetToKnowMePage: View {
                     }
                    // .padding()
                 }
-                .padding(20)
+                .padding(10)
                 .background(Color(red: 0.98, green: 0.94, blue: 0.88))
                 .cornerRadius(20)
                 .padding(.horizontal)
@@ -73,7 +73,7 @@ struct GetToKnowMePage: View {
                         .foregroundColor(.black)
                         .cornerRadius(12)
                 }
-                .padding()
+                .padding(.horizontal)
             }
         }
     }

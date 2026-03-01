@@ -15,7 +15,7 @@ struct IconCard: View {
         VStack() {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color("Grey"))
-                .shadow(color: Color("DustyOrange"), radius: 10, x: 0, y: 10)
+                .shadow(color: Color("DustyOrange"), radius: 10, x: 0, y: 5)
                 .aspectRatio(1, contentMode: .fit)
                 .overlay(
                     Group {
