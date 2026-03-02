@@ -2,9 +2,16 @@ import SwiftUI
 
 @main
 struct MyApp: App {
+    @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if hasCompletedOnboarding {
+                ContentView()
+            } else {
+                Onboarding(hasCompletedOnboarding: $hasCompletedOnboarding)
+            }
         }
     }
 }
+
