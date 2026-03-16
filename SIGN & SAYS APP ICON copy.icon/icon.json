@@ -1,0 +1,264 @@
+{
+  "fill-specializations" : [
+    {
+      "value" : {
+        "automatic-gradient" : "srgb:0.91373,0.92941,0.78824,1.00000",
+        "orientation" : {
+          "start" : {
+            "x" : 0.5,
+            "y" : 1
+          },
+          "stop" : {
+            "x" : 0.5,
+            "y" : 0.3
+          }
+        }
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "automatic-gradient" : "srgb:0.46275,0.46275,0.31765,1.00000"
+      }
+    }
+  ],
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "srgb:0.29020,0.18039,0.41176,1.00000"
+              }
+            }
+          ],
+          "image-name" : "SIGN APP.png",
+          "name" : "SIGN APP",
+          "position" : {
+            "scale" : 0.95,
+            "translation-in-points" : [
+              -295.3638850075782,
+              -282.00117888620025
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "srgb:0.95686,0.79216,0.52157,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "srgb:0.63137,0.45882,0.19216,1.00000"
+              }
+            }
+          ],
+          "image-name" : "redHeart.svg",
+          "name" : "redHeart",
+          "position" : {
+            "scale" : 0.75,
+            "translation-in-points" : [
+              -50.949106927872776,
+              -271.24954027324065
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.63137,0.45882,0.19216,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "extended-gray:0.00000,1.00000"
+              }
+            }
+          ],
+          "glass" : true,
+          "image-name" : "& SAYS 2.png",
+          "name" : "& SAYS 2",
+          "position" : {
+            "scale" : 0.95,
+            "translation-in-points" : [
+              186.66111499242174,
+              -282.00117888620025
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "extended-gray:0.00000,1.00000"
+          },
+          "image-name" : "Sign.png",
+          "name" : "Sign",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -146.68888500757816,
+              136.0301532829045
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "srgb:0.92549,0.84314,0.96863,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.29020,0.18039,0.41176,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "extended-gray:0.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "Nail 1.png",
+          "name" : "Nail 1",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -112.18888500757816,
+              211.85703763146728
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "srgb:0.92549,0.84314,0.96863,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.29020,0.18039,0.41176,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "extended-gray:0.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "Nail .png",
+          "name" : "Nail ",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -22.53921697874489,
+              214.35703763146728
+            ]
+          }
+        },
+        {
+          "image-name" : "Finger 2.png",
+          "name" : "Finger 2",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -9.188885007578165,
+              154.34850187656474
+            ]
+          }
+        },
+        {
+          "image-name" : "Finger 1.png",
+          "name" : "Finger 1",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -99.85807014293812,
+              138.70461398893565
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "srgb:0.86667,0.72157,0.57255,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "srgb:0.55686,0.41961,0.33725,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "extended-gray:1.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "GREY HAND.png",
+          "name" : "GREY HAND",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -146.68888500757816,
+              138.70461398893565
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "srgb:0.92549,0.84314,0.96863,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.29020,0.18039,0.41176,1.00000"
+              }
+            }
+          ],
+          "image-name" : "Bubble.png",
+          "name" : "Bubble",
+          "position" : {
+            "scale" : 0.75,
+            "translation-in-points" : [
+              226.89192985706188,
+              -282.00117888620025
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

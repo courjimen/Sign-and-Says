@@ -64,7 +64,7 @@ struct PECS: View {
                 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("My Helper Words")
+                        Text("Helper Words")
                             .font(.headline)
                         if isEditMode {
                             Button(action: { showingAddSheet = true }) {
@@ -93,7 +93,7 @@ struct PECS: View {
                     
                     //Icon Section
                     HStack {
-                        Text("My PECS Icons")
+                        Text("PECS Icons")
                             .font(.headline)
                         if isEditMode {
                             Button(action: { showingAddSheet = true }) {
@@ -155,7 +155,7 @@ struct PECS: View {
                             .cornerRadius(12)
                             .overlay(
                                 HStack {
-                                    Text(requestText.isEmpty ? "Tap icons..." : requestText)
+                                    Text(requestText.isEmpty ? "Tap icons or words..." : requestText)
                                         .foregroundColor(requestText.isEmpty ? .gray : .black)
                                         .padding(.horizontal)
                                     Spacer()
@@ -225,23 +225,25 @@ struct PECS: View {
         isSpeaking = true
         synthesizer.speak(utterance)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { isSpeaking = false }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            isSpeaking = false
+            requestText = ""
+            
+        }
     }
-    
     func handleTap(text: String) {
-        if requestText.isEmpty { requestText = text }
-        else { requestText += " \(text)" }
+        requestText += requestText.isEmpty ? text : " \(text)"
     }
 }
 
 #Preview {
     PECS(
-        icons: .constant([Icon(name: "STOP", image: "StopSign"),
-                          Icon(name: "BUBBLES", image: "Bubbles"),
-                          Icon(name: "BATHROOM", image: "Bathroom"),
-                          Icon(name: "FOOD", image: "Eat"),
-                          Icon(name: "BOOKS", image: "Books"),
-                          Icon(name: "SLEEP", image: "Bed")
+        icons: .constant([Icon(name: "stop", image: "StopSign"),
+                          Icon(name: "bubbles", image: "Bubbles"),
+                          Icon(name: "bathroom", image: "Bathroom"),
+                          Icon(name: "food", image: "Eat"),
+                          Icon(name: "books", image: "Books"),
+                          Icon(name: "sleep", image: "Bed")
                          ]),
         words: .constant([Word(text: "I"),
                           Word(text: "want"),

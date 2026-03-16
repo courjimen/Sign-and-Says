@@ -16,9 +16,11 @@ let package = Package(
         .iOSApplication(
             name: "Sign and Says",
             targets: ["AppModule"],
-            displayVersion: "0.1.0",
+            bundleIdentifier: "com.CoureyJ.SignandSays",
+            teamIdentifier: "885D8LZPH6",
+            displayVersion: "0.1.1",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .heart),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.mint),
             supportedDeviceFamilies: [
                 .pad,

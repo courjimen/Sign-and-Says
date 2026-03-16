@@ -45,7 +45,7 @@ struct ContentView: View {
                 VStack() {
                     // Header Section
                     VStack(spacing: 8) {
-                        Text("Sign and Says")
+                        Text("Sign & Says")
                             .font(.system(size: 34, weight: .bold))
                         Text("Select your focus.")
                             .font(.title2)
@@ -138,4 +138,8 @@ struct ContentView: View {
             }
         }
     }
+}
+
+#Preview {
+    ContentView()
 }

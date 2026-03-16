@@ -41,7 +41,6 @@ struct SignDetailSheet: View {
                     .cornerRadius(25)
                     .overlay(Capsule().stroke(Color.black, lineWidth: 1.5))
             }
-            .padding(.bottom, 20)
         }
         .frame(maxWidth: .infinity)
         .background(Color.white)
