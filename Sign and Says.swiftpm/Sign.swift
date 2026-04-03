@@ -15,7 +15,8 @@ struct Sign: View {
         ASLSign(name: "iPhone", frames: ["iPhone_1", "iPhone_2", "iPhone_3"], staticThumb: "iPhone_1"),
         ASLSign(name: "I Love You", frames: ["loveu_1", "loveu_2", "loveu_3"], staticThumb: "loveu_1"),
         ASLSign(name: "Mommy", frames: ["mom_1", "mom_2", "mom_3"], staticThumb: "mom_1"),
-        ASLSign(name: "More", frames: ["more_1", "more_2", "more_3"], staticThumb: "more_1")
+        ASLSign(name: "More", frames: ["more_1", "more_2", "more_3"], staticThumb: "more_1"),
+        ASLSign(name: "Daddy", frames: ["Daddy 1", "Daddy 2", "Daddy 3"], staticThumb: "Daddy 1")
     ]
     
     var body: some View {
@@ -52,4 +53,5 @@ struct Sign: View {
 }
 #Preview {
     Sign()
+        .environment(\.colorScheme, .dark)
 }

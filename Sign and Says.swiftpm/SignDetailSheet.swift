@@ -6,7 +6,7 @@ struct SignDetailSheet: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        VStack(spacing: 30) {
+        VStack {
             Capsule()
                 .fill(Color.gray.opacity(0.5))
                 .frame(width: 40, height: 6)
@@ -27,6 +27,7 @@ struct SignDetailSheet: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 250, height: 250)
+                        .id(frameName)
                 } animation: { _ in
                         .easeInOut(duration: 0.7)
                 }
@@ -64,5 +65,5 @@ struct SignDetailSheet: View {
             frames: ["above_1", "above_2", "above_3"],
             staticThumb: "above_1"
         )
-    )
+    ) .environment(\.colorScheme, .dark)
 }

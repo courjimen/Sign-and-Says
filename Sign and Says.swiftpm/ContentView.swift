@@ -5,44 +5,62 @@
  Notes Section will be for goals/incident reporting from teacher, caregivers, etc
  Eventually include 3D hand model that uses AI to adjust to the sentence/command
  Incorporate visionOS to track hand movements and translate sign language
+ 
+ Finalized button menu with all 5 options:
+ 
+ The Bubble Menu
+ ZStack {
+ // Learn (Top)
+ CircleButton(title: "LEARN", color: Color("DustyOrange"))
+ .offset(x: 0, y: 0)
+ 
+ //Notes (Left)
+ CircleButton(title: "NOTES", color: Color("BabyBlue"))
+ .offset(x: -90, y: 100)
+ 
+ // Regular Navigation Link for the Button
+ NavigationLink(destination: PECS(icons: $icons, words: $words)) {
+ CircleButton(title: "SPEAK", color: Color("LightGreen"))
+ }
+ .buttonStyle(PlainButtonStyle())
+ .offset(x: 90, y: 100)
+ 
+ NavigationLink(destination: Sign()) {
+ CircleButton(title: "SIGN", color: Color("Lilac"))
+ }
+ .buttonStyle(PlainButtonStyle())
+ .offset(x: -70, y: 230)
+ 
+ 
+ NavigationLink(destination: ProfilePage()) {
+ CircleButton(title: "PROFILE", color: Color("Cafe"))
+ }
+ .buttonStyle(PlainButtonStyle())
+ .offset(x: 70, y: 230)
+ 
+ .padding()
+ }
+ Spacer()
  */
 
 import SwiftUI
 import PhotosUI
 
 struct ContentView: View {
-    @State private var pickerItem: PhotosPickerItem?
-    @State private var selectedImage: Image?
     @State private var showingAddSheet = false
-    @State private var navigateToPecs =  false
-    @State private var navigateToSign =  false
+    @State private var navigateToPecs = false
     
-    @State private var icons: [Icon] = [Icon(name: "STOP", image: "StopSign"),
-                                        Icon(name: "BUBBLES", image: "Bubbles"),
-                                        Icon(name: "BATHROOM", image: "Bathroom"),
-                                        Icon(name: "FOOD", image: "Eat"),
-                                        Icon(name: "BOOKS", image: "Books"),
-                                        Icon(name: "SLEEP", image: "Bed")
-    ]
-    
-    @State private var words: [Word] = [Word(text: "I"),
-                                        Word(text: "want"),
-                                        Word(text: "please"),
-                                        Word(text: "go"),
-                                        Word(text: "my"),
-                                        Word(text: "to")
-    ]
-    
+    // Load data
+    @State private var icons: [Icon] = PersistenceManager.loadIcons()
+    @State private var words: [Word] = PersistenceManager.loadWords()
     @State private var externalUiImage: UIImage?
     
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(Color("Grey").opacity(0.3)).edgesIgnoringSafeArea(.all)
-                NavigationLink(destination: PECS(icons: $icons, words: $words), isActive: $navigateToPecs) {
-                    EmptyView()
-                }
-                VStack() {
+                
+                VStack {
                     // Header Section
                     VStack(spacing: 8) {
                         Text("Sign & Says")
@@ -54,35 +72,29 @@ struct ContentView: View {
                     .padding()
                     
                     // The Bubble Menu
-                    ZStack {
-                        // Learn (Top)
-                        //CircleButton(title: "LEARN", color: Color("DustyOrange"))
-                        //  .offset(x: 0, y: -70)
-                        
-                        // Notes (Left)
-                        //CircleButton(title: "NOTES", color: Color("BabyBlue"))
-                        //.offset(x: -80, y: 20)
-                        
-                        // Sign (Bottom Left)
-                        VStack{
-                            // Speak (Right)
-                            NavigationLink(destination: PECS(icons: $icons, words: $words)) {
-                                CircleButton(title: "SPEAK", color: Color("LightGreen"))
-                            }
-                            .padding()
-                            NavigationLink(destination: Sign()){
-                                CircleButton(title: "SIGN", color: Color("Lilac"))}
-                            .padding()
-                            
-                            // Profile (Bottom Right)
-                            NavigationLink(destination: ProfilePage()){
-                                CircleButton(title: "PROFILE", color: Color("Cafe"))
-                            }
-                            .padding()
+                    //  ZStack {
+                    VStack(spacing: 15) {
+                        // Regular Navigation Link for the Button
+                        NavigationLink(destination: PECS(icons: $icons, words: $words)) {
+                            CircleButton(title: "SPEAK", color: Color("LightGreen"))
                         }
+                        .padding()
+                        
+                        NavigationLink(destination: Sign()) {
+                            CircleButton(title: "SIGN", color: Color("Lilac"))
+                        }
+                        .padding()
+                        
+                        NavigationLink(destination: ProfilePage()) {
+                            CircleButton(title: "PROFILE", color: Color("Cafe"))
+                        }
+                        .padding()
                     }
-                    .padding()
+                    
+                    
                     Spacer()
+                    
+                    // Footer Buttons
                     HStack {
                         Button(action: { showingAddSheet = true }) {
                             ZStack {
@@ -90,56 +102,72 @@ struct ContentView: View {
                                     .fill(Color("BabyBlue"))
                                     .frame(width: 55, height: 55)
                                     .shadow(radius: 2)
-                                
                                 Image(systemName: "plus")
                                     .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(.black)
                             }
                         }
-                        .sheet(isPresented: $showingAddSheet, onDismiss: {
-                            navigateToPecs = true
-                        }) {
-                            AddIconSheet(words: $words, icons: $icons)
-                        }
                         
                         Spacer()
-                        NavigationLink {
-                            Onboarding(hasCompletedOnboarding: .constant(false))
-                        } label: {
+                        
+                        NavigationLink(destination: Onboarding(hasCompletedOnboarding: .constant(false))) {
                             Image(systemName: "questionmark.circle")
-                                .foregroundStyle(.black)
+                                .foregroundStyle(.primary)
                                 .font(.system(size: 50, weight: .bold))
                         }
                     }
                     .padding(.all, 40)
                 }
-                
-                .sheet(isPresented: $showingAddSheet) {
-                    AddIconSheet(words: $words, icons: $icons, preSelectedImage: externalUiImage)
-                }
+            }
+            .navigationDestination(isPresented: $navigateToPecs) {
+                PECS(icons: $icons, words: $words)
+            }
+            // 1. Load data if UserDefaults was updated elsewhere
+            .onAppear {
+                let savedIcons = PersistenceManager.loadIcons()
+                let savedWords = PersistenceManager.loadWords()
+                if !savedIcons.isEmpty { self.icons = savedIcons }
+                if !savedWords.isEmpty { self.words = savedWords }
+            }
+            // 2. Save data whenever the arrays change
+            .onChange(of: icons) { oldValue, newValue in
+                PersistenceManager.savePECS(icons: newValue, words: words)
+            }
+            .onChange(of: words) { oldValue, newValue in
+                PersistenceManager.savePECS(icons: icons, words: newValue)
+            }
+            // 3. SINGLE Add Sheet (Combined)
+            .sheet(isPresented: $showingAddSheet, onDismiss: {
+                // If the user adds something from the menu,
+                // this takes them straight to the PECS board to see it.
+                withAnimation { navigateToPecs = true }
+            }) {
+                AddIconSheet(words: $words, icons: $icons, preSelectedImage: externalUiImage)
             }
         }
     }
+}
+
+struct CircleButton: View {
+    let title: String
+    let color: Color
     
-    struct CircleButton: View {
-        let title: String
-        let color: Color
-        
-        var body: some View {
-            ZStack {
-                Circle()
-                    .fill(color)
-                    .frame(width: 125, height: 125)
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
-                
-                Text(title)
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.black)
-            }
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(color)
+                .frame(width: 125, height: 125)
+                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
+            
+            Text(title)
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.black)
         }
     }
 }
 
 #Preview {
     ContentView()
+        .environment(\.colorScheme, .dark)
 }
+

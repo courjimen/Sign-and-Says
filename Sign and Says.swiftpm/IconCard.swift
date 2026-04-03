@@ -14,19 +14,19 @@ struct IconCard: View {
                 .overlay(
                     Group {
                         if let uiImage = icon.uiImage {
+                            // Displays the photo library image
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFill()
+                                .frame(width: 90, height: 90)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                         } else {
                             Image(icon.image)
                                 .resizable()
                                 .scaledToFit()
-                                .padding(10)
+                                .padding(15)
                         }
                     }
-                        .scaledToFit()
-                        .padding(10)
                 )
             
             Text(icon.name.uppercased())
@@ -58,5 +58,5 @@ struct IconCard: View {
 }
 
 #Preview {
-    IconCard(icon: Icon(name: "Stop", image: "StopSign"), isEditMode: true, onTap: {})
+    IconCard(icon: Icon(name: "Stop", image: "StopSign"), isEditMode: false, onTap: {})
 }

@@ -51,12 +51,19 @@ struct AddIconSheet: View {
                 
                 Button("Save to Library") {
                     if mode == 0 {
-                        words.append(Word(text: textInput))
-                    } else {
-                        icons.append(Icon(name: textInput, image: "photo", uiImage: previewImage))
+                            words.append(Word(text: textInput))
+                        } else {
+                            // Convert the previewImage to Data so it can be saved forever
+                            let data = previewImage?.jpegData(compressionQuality: 0.8)
+                            
+                            icons.append(Icon(
+                                name: textInput,
+                                image: "photo", // Placeholder name
+                                imageData: data  // THIS is what gets saved to disk
+                            ))
+                        }
+                        dismiss()
                     }
-                    dismiss()
-                }
                 .disabled(textInput.isEmpty || (mode == 1 && previewImage == nil))
             }
             .navigationTitle("Add Word or Icon")
@@ -67,7 +74,7 @@ struct AddIconSheet: View {
                 }
             }
         }
-    }
+    } 
 }
 
 #Preview {

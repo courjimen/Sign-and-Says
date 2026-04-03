@@ -13,12 +13,13 @@ struct GetToKnowMePage: View {
         GridItem(.flexible(), spacing: 12)
     ]
     
-    var body: some View {
-        ScrollView {
+    var profileCard: some View {
+    
             VStack(alignment: .leading, spacing: 15) {
                 HStack{Text("All About \(KidName)")
                         .font(.title2)
                         .fontWeight(.black)
+                        .foregroundColor(.black)
                     
                     Spacer()
                     if let image = profileImage {
@@ -29,50 +30,78 @@ struct GetToKnowMePage: View {
                             .clipShape(Circle())
                             .overlay(Circle().stroke(Color.white, lineWidth: 4))
                             .shadow(radius: 3)
-                    }
-                }
-                
-                LazyVGrid(columns: columns, spacing: 12) {
-                    CategoryTile(title: "Triggers", content: Trigger, color: Color(red: 0.95, green: 0.85, blue: 0.6))
-                    CategoryTile(title: "Fixations", content: Fixations, color: Color(red: 0.75, green: 0.88, blue: 1.0))
-                    CategoryTile(title: "Play", content: results["How does \(KidName) like to play?"] ?? "Not selected", color: Color(red: 0.9, green: 0.85, blue: 0.98))
-                    CategoryTile(title: "Goals", content: results["What are your goals for \(KidName)?"] ?? "Not selected", color: Color(red: 0.92, green: 0.94, blue: 0.82))
-                }
-                
-                VStack(alignment: .leading, spacing: 5) {
-                    DetailBanner(title: "Communication Style",
-                                 content: results["What best summarizes \(KidName)'s communication style?"] ?? "Not selected",
-                                 icon: "message.fill")
-                    
-                    DetailBanner(title: "Soothing Items",
-                                 content: results["What are soothing items/things \(KidName) likes?"] ?? "Not selected",
-                                 icon: "sparkles")
-                    
-                    DetailBanner(title: "Thrives In",
-                                 content: results["What type of space does \(KidName) thrive in?"] ?? "Not selected",
-                                 icon: "house.fill")
-                    
-                    DetailBanner(title: "Coping Strategy",
-                                 content: Coping,
-                                 icon: "heart.fill")
+                    } else {
+                        Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.gray)
                 }
             }
-            .padding(10)
-            .background(Color(red: 0.98, green: 0.94, blue: 0.88))
-            .cornerRadius(20)
-            .padding(.horizontal)
             
-            ShareLink(item: "Important Info for \(KidName)") {
-                Label("Share Profile", systemImage: "square.and.arrow.up")
-                    .font(.headline)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color("BabyBlue"))
-                    .foregroundColor(.black)
-                    .cornerRadius(12)
+            LazyVGrid(columns: columns, spacing: 12) {
+                CategoryTile(title: "Triggers", content: Trigger, color: Color(red: 0.95, green: 0.85, blue: 0.6))
+                CategoryTile(title: "Fixations", content: Fixations, color: Color(red: 0.75, green: 0.88, blue: 1.0))
+                CategoryTile(title: "Play", content: results["How does \(KidName) like to play?"] ?? "Not selected", color: Color(red: 0.9, green: 0.85, blue: 0.98))
+                CategoryTile(title: "Goals", content: results["What are your goals for \(KidName)?"] ?? "Not selected", color: Color(red: 0.92, green: 0.94, blue: 0.82))
             }
-            .padding(.horizontal)
+            
+            VStack(alignment: .leading, spacing: 5) {
+                DetailBanner(title: "Communication Style",
+                             content: results["What best summarizes \(KidName)'s communication style?"] ?? "Not selected",
+                             icon: "message.fill")
+                
+                DetailBanner(title: "Soothing Items",
+                             content: results["What are soothing items/things \(KidName) likes?"] ?? "Not selected",
+                             icon: "sparkles")
+                
+                DetailBanner(title: "Thrives In",
+                             content: results["What type of space does \(KidName) thrive in?"] ?? "Not selected",
+                             icon: "house.fill")
+                
+                DetailBanner(title: "Coping Strategy",
+                             content: Coping,
+                             icon: "heart.fill")
+            }
         }
+        .padding(20)
+        .background(Color(red: 0.98, green: 0.94, blue: 0.88))
+        .cornerRadius(20)
+    }
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                profileCard
+                    .padding(.horizontal)
+            //Sharing Logic
+                if let imageToShare = renderCardAsImage() {
+                    ShareLink(
+                        item: imageToShare,
+                        preview: SharePreview("\(KidName)'s Care Card", image: imageToShare)
+                    ) {
+                        Label("Share Care Card", systemImage: "square.and.arrow.up")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal)
+                }
+            }
+            .padding(.vertical)
+        }
+    }
+    @MainActor
+    func renderCardAsImage() -> Image? {
+        let renderer = ImageRenderer(content: profileCard.frame(width: 400))
+        renderer.scale = 3.0 // High quality
+        
+        if let uiImage = renderer.uiImage {
+            return Image(uiImage: uiImage)
+        }
+        return nil
     }
 }
 
@@ -91,10 +120,10 @@ struct DetailBanner: View {
                 Text(title)
                     .font(.caption)
                     .bold()
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.black)
                 Text(content)
                     .font(.subheadline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
             }
         }
         .padding(12)
@@ -113,11 +142,12 @@ struct CategoryTile: View {
         VStack(alignment: .center, spacing: 8) {
             Text(title)
                 .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.black)
             
             Text(content)
                 .font(.system(size: 13))
                 .multilineTextAlignment(.center)
-                .foregroundColor(.black.opacity(0.8))
+                .foregroundColor(.black).opacity(0.8)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(10)
@@ -139,4 +169,5 @@ struct CategoryTile: View {
         ],
         profileImage: nil
     )
+    .environment(\.colorScheme, .dark)
 }

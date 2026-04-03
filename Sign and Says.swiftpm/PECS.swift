@@ -181,6 +181,7 @@ struct PECS: View {
                 .padding(.horizontal, 20)
             }
         }
+        
         .sheet(isPresented: $showingAddSheet) {
             AddIconSheet(words: $words, icons: $icons)
         }

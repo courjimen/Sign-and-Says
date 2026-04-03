@@ -25,7 +25,7 @@ struct SignCard: View {
         .padding(10)
         .frame(width: 175, height: 200)
         .background(RoundedRectangle(cornerRadius: 20).fill(Color("Lilac")))
-        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 1.5))
+        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color("Black"), lineWidth: 1.5))
         .onTapGesture { onTap() }
     }
 }

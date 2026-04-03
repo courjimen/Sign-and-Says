@@ -18,7 +18,7 @@ let package = Package(
             targets: ["AppModule"],
             bundleIdentifier: "com.CoureyJ.SignandSays",
             teamIdentifier: "885D8LZPH6",
-            displayVersion: "0.1.1",
+            displayVersion: "0.1.3",
             bundleVersion: "1",
             appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.mint),
