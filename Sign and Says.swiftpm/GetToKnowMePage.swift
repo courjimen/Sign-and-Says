@@ -113,7 +113,7 @@ struct DetailBanner: View {
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.secondary)
+                .foregroundColor(.gray)
                 .frame(width: 24)
             
             VStack(alignment: .leading, spacing: 2) {
