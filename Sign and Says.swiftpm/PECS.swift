@@ -1,10 +1,16 @@
 /* LEFT TO DO
+ Allow categories for the PECS section and then a pop-up screen with additional icons
+ - Food: Burger, Pizza, Cookies
+ - Drinks: Water, Juice, Milk, Tea, Slushie
+ - Play: Park, Tag, Beach, Movies, Blocks, Toys, Friends
+ -Family: Mom, Dad, siblings
+ 
+ Allow AI to assess what the user use the most and keep those words/icons pinned
  Create adjustable size for iPad/Tablet users
  Add options for spanish/bilingual
  
  STRETCH GOAL
  Add 3D hand model to sign the request bar sentence using AI (foundations)
- Allow categories for the PECS section and then a pop-up screen with additional icons
  */
 
 import SwiftUI
@@ -237,7 +243,7 @@ struct PECS: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft) {
     PECS(
         icons: .constant([Icon(name: "stop", image: "StopSign"),
                           Icon(name: "bubbles", image: "Bubbles"),

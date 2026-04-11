@@ -1,3 +1,9 @@
+/* Create categories:
+ Family
+ Actions
+ Food
+ Requests
+ */
 import SwiftUI
 import AVFoundation
 
@@ -27,7 +33,7 @@ struct Sign: View {
                     .font(.title2)
                     .foregroundColor(.secondary)
                 ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 20) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 15) {
                         ForEach(aslSigns) { sign in
                             SignCard(aslSign: sign) {
                                 playSignSound(name: sign.name)
@@ -51,7 +57,7 @@ struct Sign: View {
         self.synthesizer.speak(utterance)
     }
 }
-#Preview {
+#Preview (traits: .landscapeLeft) {
     Sign()
         .environment(\.colorScheme, .dark)
 }

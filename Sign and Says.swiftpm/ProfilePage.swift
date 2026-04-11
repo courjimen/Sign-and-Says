@@ -1,3 +1,9 @@
+/*
+ Make the initial 4 questions required
+ Frame text box to only accept a certain amount of characters
+ 
+ */
+
 import PhotosUI
 import SwiftUI
 
@@ -114,6 +120,6 @@ struct ProfilePage: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft){
     ProfilePage(KidName: "Courey")
 }

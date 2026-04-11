@@ -47,6 +47,7 @@ import SwiftUI
 import PhotosUI
 
 struct ContentView: View {
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @State private var showingAddSheet = false
     @State private var navigateToPecs = false
     
@@ -72,25 +73,39 @@ struct ContentView: View {
                     .padding()
                     
                     // The Bubble Menu
-                    //  ZStack {
-                    VStack(spacing: 15) {
-                        // Regular Navigation Link for the Button
-                        NavigationLink(destination: PECS(icons: $icons, words: $words)) {
-                            CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                    Group {
+                        if verticalSizeClass == .regular {
+                            VStack {
+                                NavigationLink(destination: PECS(icons: $icons, words: $words)) {
+                                    CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                                }
+                                NavigationLink(destination: Sign()) {
+                                    CircleButton(title: "SIGN", color: Color("Lilac"))
+                                }
+                                
+                                NavigationLink(destination: ProfilePage()) {
+                                    CircleButton(title: "PROFILE", color: Color("Cafe"))
+                                }
+                            }
+                            .padding()
+                        } else {
+                            // LANDSCAPE VIEW
+                            HStack(spacing: 40) {
+                                NavigationLink(destination: PECS(icons: $icons, words: $words)) {
+                                    CircleButton(title: "SPEAK", color: Color("LightGreen"))
+                                }
+                                
+                                NavigationLink(destination: Sign()) {
+                                    CircleButton(title: "SIGN", color: Color("Lilac"))
+                                }
+                                
+                                NavigationLink(destination: ProfilePage()) {
+                                    CircleButton(title: "PROFILE", color: Color("Cafe"))
+                                }
+                            }
+                            .padding(.vertical, 10)
                         }
-                        .padding()
-                        
-                        NavigationLink(destination: Sign()) {
-                            CircleButton(title: "SIGN", color: Color("Lilac"))
-                        }
-                        .padding()
-                        
-                        NavigationLink(destination: ProfilePage()) {
-                            CircleButton(title: "PROFILE", color: Color("Cafe"))
-                        }
-                        .padding()
                     }
-                    
                     
                     Spacer()
                     
@@ -138,8 +153,7 @@ struct ContentView: View {
             }
             // 3. SINGLE Add Sheet (Combined)
             .sheet(isPresented: $showingAddSheet, onDismiss: {
-                // If the user adds something from the menu,
-                // this takes them straight to the PECS board to see it.
+                //Takes user straight to PECS if they add something from the menu
                 withAnimation { navigateToPecs = true }
             }) {
                 AddIconSheet(words: $words, icons: $icons, preSelectedImage: externalUiImage)
@@ -154,6 +168,7 @@ struct CircleButton: View {
     
     var body: some View {
         ZStack {
+            
             Circle()
                 .fill(color)
                 .frame(width: 125, height: 125)
@@ -166,8 +181,8 @@ struct CircleButton: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft) {
     ContentView()
-        .environment(\.colorScheme, .dark)
+//        .environment(\.colorScheme, .dark)
 }
 

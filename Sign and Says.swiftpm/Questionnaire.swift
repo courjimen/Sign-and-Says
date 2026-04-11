@@ -123,6 +123,6 @@ struct MultipleChoiceButton: View {
         }
     }
 }
-#Preview {
+#Preview (traits: .landscapeLeft) {
     Questionnaire(KidName: "", Trigger: "", Fixations: "", Coping: "", profileImage: nil)
 }

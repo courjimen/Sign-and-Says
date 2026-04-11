@@ -157,7 +157,7 @@ struct CategoryTile: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft){
     GetToKnowMePage(
         KidName: "Courey",
         Trigger: "Loud noises and bright lights",
