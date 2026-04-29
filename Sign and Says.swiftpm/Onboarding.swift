@@ -180,7 +180,8 @@ enum OnboardingPage: Int, CaseIterable {
                     
                     Text(page.caption)
                         .font(.system(.caption, design: .default))
-                        .foregroundColor(Color("Grey"))
+                        .fontWeight(.bold)
+                        .foregroundColor(Color("Cafe"))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
                         .opacity(isAnimating ? 1 : 0)
