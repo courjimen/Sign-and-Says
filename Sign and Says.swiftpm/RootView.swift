@@ -27,5 +27,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
-       .environment(\.colorScheme, .dark)
+      // .environment(\.colorScheme, .dark)
 }

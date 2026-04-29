@@ -58,7 +58,7 @@ struct SignDetailSheet: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft) {
     SignDetailSheet(
         aslSign: ASLSign(
             name: "Above",

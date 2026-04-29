@@ -111,16 +111,17 @@ struct MultipleChoiceButton: View {
     var isSelected: Bool = false
     
     var body: some View {
+        
         ZStack {
-            Rectangle()
-                .frame(width: 250, height: 50) // Widened slightly for long text
-                .foregroundColor(isSelected ? Color("LightGreen") : Color("Grey").opacity(0.3))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2))
-            
-            Text(answer)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(.black)
-        }
+                Rectangle()
+                    .frame(width: 250, height: 50) // Widened slightly for long text
+                    .foregroundColor(isSelected ? Color("LightGreen") : Color("Grey").opacity(0.3))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2))
+                
+                Text(answer)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.black)
+            }
     }
 }
 #Preview (traits: .landscapeLeft) {

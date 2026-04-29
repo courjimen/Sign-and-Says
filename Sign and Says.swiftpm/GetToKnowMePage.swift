@@ -169,5 +169,5 @@ struct CategoryTile: View {
         ],
         profileImage: nil
     )
-    .environment(\.colorScheme, .dark)
+   // .environment(\.colorScheme, .dark)
 }

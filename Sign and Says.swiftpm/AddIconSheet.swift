@@ -77,7 +77,7 @@ struct AddIconSheet: View {
     } 
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft){
     AddIconSheet(
         words: .constant([Word(text: "I"), Word(text: "want")]),
         icons: .constant([Icon(name: "STOP", image: "StopSign")])
