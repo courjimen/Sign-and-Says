@@ -7,12 +7,14 @@
 import SwiftUI
 
 struct Questionnaire: View {
+    
     let KidName: String
     let Trigger: String
     let Fixations: String
     let Coping: String
     let profileImage: UIImage?
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @State private var currentIndex = 0
     @State private var selections: [String: String] = [:]
     @State private var showFinalPage = false
@@ -40,6 +42,7 @@ struct Questionnaire: View {
                 Text("\(currentIndex + 1) / \(questions.count)")
                     .font(.caption)
                     .foregroundColor(.secondary)
+                    .padding(.top)
                 
                 Text(questions[currentIndex].title)
                     .font(.system(size: 25, weight: .bold))
@@ -49,21 +52,42 @@ struct Questionnaire: View {
                 Text("Select the answer that best describes your child.")
                     .font(.title3)
                     .foregroundColor(.secondary)
-                    .padding(.bottom, 20)
-                
-                VStack(spacing: 12) {
-                    ForEach(questions[currentIndex].options, id: \.self) { option in
-                        MultipleChoiceButton(
-                            answer: option,
-                            isSelected: selections[questions[currentIndex].title] == option
-                        )
-                        .onTapGesture {
-                            selections[questions[currentIndex].title] = option
+                    .padding(.bottom)
+                Group {
+                    if verticalSizeClass == .regular {
+                        VStack(spacing: 12) {
+                            ForEach(questions[currentIndex].options, id: \.self) { option in
+                                MultipleChoiceButton(
+                                    answer: option,
+                                    isSelected: selections[questions[currentIndex].title] == option
+                                )
+                                .onTapGesture {
+                                    selections[questions[currentIndex].title] = option
+                                }
+                            }
+                        }
+                        .padding(.bottom, 50)
+                    }
+                    else {
+                        let columns = [
+                                GridItem(.flexible(), spacing: 16),
+                                GridItem(.flexible(), spacing: 16)
+                            ]
+                        //Created the columns for each MC selection
+                            LazyVGrid(columns: columns, spacing: 10) {
+                                ForEach(questions[currentIndex].options, id: \.self) { option in
+                                    MultipleChoiceButton(
+                                        answer: option,
+                                        isSelected: selections[questions[currentIndex].title] == option
+                                    )
+                                    .onTapGesture {
+                                        selections[questions[currentIndex].title] = option
+                                    }
+                                }
+                                .padding(.bottom)
+                            }
                         }
                     }
-                }
-                .padding(.bottom, 50)
-                
                 
                 // Next Question Button
                 if currentIndex < questions.count - 1 {
@@ -111,19 +135,19 @@ struct MultipleChoiceButton: View {
     var isSelected: Bool = false
     
     var body: some View {
-        
         ZStack {
-                Rectangle()
-                    .frame(width: 250, height: 50) // Widened slightly for long text
-                    .foregroundColor(isSelected ? Color("LightGreen") : Color("Grey").opacity(0.3))
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2))
-                
-                Text(answer)
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.black)
-            }
+            Rectangle()
+                .frame(width: 250, height: 50) // Widened slightly for long text
+                .foregroundColor(isSelected ? Color("LightGreen") : Color("Grey").opacity(0.3))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2))
+            
+            Text(answer)
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.black)
+        }
     }
 }
+
 #Preview (traits: .landscapeLeft) {
     Questionnaire(KidName: "", Trigger: "", Fixations: "", Coping: "", profileImage: nil)
 }
