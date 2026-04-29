@@ -3,7 +3,7 @@ import SwiftUI
 struct SignCard: View {
     let aslSign: ASLSign
     let onTap: () -> Void
-    
+
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 20)
@@ -30,7 +30,7 @@ struct SignCard: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft) {
     SignCard(
         aslSign: ASLSign(
             name: "Above",
