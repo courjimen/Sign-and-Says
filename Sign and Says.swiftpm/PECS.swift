@@ -246,7 +246,7 @@ struct PECS: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft){
     PECS(
         icons: .constant([Icon(name: "stop", image: "StopSign"),
                           Icon(name: "bubbles", image: "Bubbles"),

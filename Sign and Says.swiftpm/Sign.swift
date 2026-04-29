@@ -8,6 +8,8 @@ import SwiftUI
 import AVFoundation
 
 struct Sign: View {
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @State private var selectedSign: ASLSign? = nil
     private let synthesizer = AVSpeechSynthesizer()
     
@@ -28,24 +30,48 @@ struct Sign: View {
     var body: some View {
         ZStack{
             Color(Color("LightGreen").opacity(0.3)).edgesIgnoringSafeArea(.all)
-            VStack {
-                Text("Practice ASL")
-                    .font(.title2)
-                    .foregroundColor(.secondary)
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 15) {
-                        ForEach(aslSigns) { sign in
-                            SignCard(aslSign: sign) {
-                                playSignSound(name: sign.name)
-                                selectedSign = sign
+            Group {
+                if verticalSizeClass == .regular {
+                    VStack {
+                        Text("Practice ASL")
+                            .font(.title2)
+                            .foregroundColor(.secondary)
+                        ScrollView {
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 175))], spacing: 15) {
+                                ForEach(aslSigns) { sign in
+                                    SignCard(aslSign: sign) {
+                                        playSignSound(name: sign.name)
+                                        selectedSign = sign
+                                    }
+                                }
                             }
+                            .padding()
+                        }
+                        .sheet(item: $selectedSign) { sign in
+                            SignDetailSheet(aslSign: sign)
+                                .presentationDetents([.medium, .large])
                         }
                     }
-                    .padding()
-                }
-                .sheet(item: $selectedSign) { sign in
-                    SignDetailSheet(aslSign: sign)
-                        .presentationDetents([.medium, .large])
+                } else {
+                    VStack {
+                        Text("Practice ASL")
+                            .font(.title2)
+                            .foregroundColor(.secondary)
+                        ScrollView {
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing:10) {
+                                ForEach(aslSigns) { sign in
+                                    SignCard(aslSign: sign) {
+                                        playSignSound(name: sign.name)
+                                        selectedSign = sign
+                                    }
+                                }
+                            }.padding()
+                        }
+                        .sheet(item: $selectedSign) { sign in
+                            SignDetailSheet(aslSign: sign)
+                                .presentationDetents([.medium, .large])
+                        }
+                    }
                 }
             }
         }
@@ -59,5 +85,5 @@ struct Sign: View {
 }
 #Preview (traits: .landscapeLeft){
     Sign()
-      //  .environment(\.colorScheme, .dark)
+    //  .environment(\.colorScheme, .dark)
 }
