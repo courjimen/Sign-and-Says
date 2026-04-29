@@ -57,7 +57,7 @@ struct Sign: View {
         self.synthesizer.speak(utterance)
     }
 }
-#Preview {
+#Preview (traits: .landscapeLeft){
     Sign()
       //  .environment(\.colorScheme, .dark)
 }

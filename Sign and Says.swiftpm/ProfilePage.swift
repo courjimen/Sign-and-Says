@@ -67,6 +67,7 @@ struct ProfilePage: View {
                         // Name Field
                         VStack(alignment: .leading) {
                             TextField("What's your child's name?", text: $KidName)
+                                .font(.body)
                                 .onChange(of: KidName) { old, newValue in if newValue.count > nameLimit { KidName = String(newValue.prefix(nameLimit)) } }
                             underline
                         }
@@ -74,6 +75,7 @@ struct ProfilePage: View {
                         // Trigger
                         VStack(alignment: .leading) {
                             TextField("What's your child's biggest trigger?", text: $Trigger, axis: .vertical)
+                                .font(.body)
                                 .lineLimit(1...4)
                                 .onChange(of: Trigger) { old, newValue in if newValue.count > detailLimit { Trigger = String(newValue.prefix(detailLimit)) } }
                             underline
@@ -82,6 +84,7 @@ struct ProfilePage: View {
                         // Fixations
                         VStack(alignment: .leading) {
                             TextField("What are some of your child's fixations?", text: $Fixations, axis: .vertical)
+                                .font(.body)
                                 .lineLimit(1...4)
                                 .onChange(of: Fixations) { old, newValue in if newValue.count > detailLimit { Fixations = String(newValue.prefix(detailLimit)) } }
                             underline
@@ -90,6 +93,7 @@ struct ProfilePage: View {
                         // Coping
                         VStack(alignment: .leading) {
                             TextField("How does your child calm down?", text: $Coping, axis: .vertical)
+                                .font(.body)
                                 .lineLimit(1...4)
                                 .onChange(of: Coping) { old, newValue in if newValue.count > detailLimit { Coping = String(newValue.prefix(detailLimit)) } }
                             underline
@@ -120,6 +124,6 @@ struct ProfilePage: View {
     }
 }
 
-#Preview (traits: .landscapeLeft){
+#Preview {
     ProfilePage(KidName: "Courey")
 }
