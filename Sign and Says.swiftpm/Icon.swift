@@ -25,8 +25,8 @@ struct Question: Identifiable {
     let options: [String]
 }
 
-struct ASLSign: Identifiable {
-    let id = UUID()
+struct ASLSign: Identifiable, Hashable, Codable {
+    var id = UUID()
     let name: String
     let frames: [String]
     let staticThumb: String

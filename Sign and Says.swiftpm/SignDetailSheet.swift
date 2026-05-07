@@ -7,92 +7,45 @@ struct SignDetailSheet: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     var body: some View {
-        Group {
-            if verticalSizeClass == . regular {
-                VStack {
-                    Capsule()
-                        .fill(Color.gray.opacity(0.5))
-                        .frame(width: 40, height: 6)
-                        .padding(.top, 10)
-                    
-                    Text(aslSign.name.uppercased())
-                        .font(.system(size: 40, weight: .black))
-                        .padding(.top, 20)
-                        .foregroundColor(Color("Cafe"))
-                    
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 30)
-                            .fill(Color("Grey").opacity(0.1))
-                            .frame(width: 300, height: 300)
-                        
-                        PhaseAnimator(aslSign.frames) { frameName in
-                            Image(frameName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 250, height: 250)
-                                .id(frameName)
-                        } animation: { _ in
-                                .easeInOut(duration: 0.7)
-                        }
-                    }
-                    
-                    Button(action: { dismiss() }) {
-                        Text("DONE")
-                            .font(.headline)
-                            .frame(width: 200, height: 50)
-                            .background(Color("LightGreen"))
-                            .foregroundColor(.black)
-                            .cornerRadius(25)
-                            .overlay(Capsule().stroke(Color.black, lineWidth: 1.5))
-                    }
+        GeometryReader { geometry in
+            let isLandscape = verticalSizeClass == .compact
+            let screenHeight = geometry.size.height
+            let boxSize = isLandscape ? screenHeight * 0.6 : screenHeight * 0.55
+            let imageSize = boxSize * 0.9
+            
+            VStack(spacing: isLandscape ? 8 : 15) {
+                Text(aslSign.name.uppercased())
+                    .font(.system(size: isLandscape ? 40 : 40, weight: .bold))
+                    .foregroundColor(Color("Cafe"))
+                    .minimumScaleFactor(0.5)
+                    .padding(.top, isLandscape ? 10 : 30)
+                
+                // Image Container
+                PhaseAnimator(aslSign.frames) { frameName in
+                    Image(frameName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: imageSize, height: imageSize)
+                        .id(frameName)
+                } 
+                .padding(.bottom)
+                
+                // Done Button
+                Button(action: { dismiss() }) {
+                    Text("DONE")
+                        .font(.headline)
+                        .frame(width: 160, height: 45)
+                        .background(Color("LightGreen"))
+                        .foregroundColor(.black)
+                        .cornerRadius(25)
+                        .overlay(Capsule().stroke(Color.black, lineWidth: 1.5))
                 }
-                .frame(maxWidth: .infinity)
-                .background(Color.white)
-                .onAppear {
-                    speak(aslSign.name)
-                }
-            } else {
-                VStack (spacing: -2){
-                    Text(aslSign.name.uppercased())
-                        .font(.system(size: 40, weight: .black))
-                        .foregroundColor(Color("Cafe"))
-                    
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 30)
-                            .fill(Color("Grey").opacity(0.1))
-                            .frame(width: 300, height: 300)
-                        
-                        PhaseAnimator(aslSign.frames) { frameName in
-                            Image(frameName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 250, height: 250)
-                                .id(frameName)
-                        } animation: { _ in
-                                .easeInOut(duration: 0.7)
-                        }
-                    }
-                    
-                    Button(action: { dismiss() }) {
-                        Text("DONE")
-                            .font(.headline)
-                            .frame(width: 200, height: 50)
-                            .background(Color("LightGreen"))
-                            .foregroundColor(.black)
-                            .cornerRadius(25)
-                            .overlay(Capsule().stroke(Color.black, lineWidth: 1.5))
-                    }
-                }
-                .padding(.top)
-                .frame(maxWidth: .infinity)
-                .background(Color.white)
-                .onAppear {
-                    speak(aslSign.name)
-                }
+                .padding(.bottom, isLandscape ? 10 : 20)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .background(Color.white)
         }
     }
-    
     func speak(_ text: String) {
         let synthesizer = AVSpeechSynthesizer()
         let utterance = AVSpeechUtterance(string: text)

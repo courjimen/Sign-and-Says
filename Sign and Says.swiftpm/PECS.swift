@@ -46,28 +46,28 @@ struct PECS: View {
             ScrollView {
                 VStack(spacing: 0) {
                     // Edit & Search Bar
-                    HStack(spacing: 15) {
-                        Button(isEditMode ? "Done" : "Edit") {
-                            withAnimation(.spring()) {
-                                isEditMode.toggle()
-                            }
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(isEditMode ? Color.blue : Color.white)
-                        .foregroundColor(isEditMode ? .white : .gray)
-                        .clipShape(Capsule())
-                        
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                            TextField("Search", text: $searchText)
-                        }
-                        .padding(8)
-                        .background(Color(white: 0.9))
-                        .cornerRadius(10)
-                        
-                    }
-                    .padding()
+                    //                    HStack(spacing: 15) {
+                    //                        Button(isEditMode ? "Done" : "Edit") {
+                    //                            withAnimation(.spring()) {
+                    //                                isEditMode.toggle()
+                    //                            }
+                    //                        }
+                    //                        .buttonStyle(.borderedProminent)
+                    //                        .tint(isEditMode ? Color.blue : Color.white)
+                    //                        .foregroundColor(isEditMode ? .white : .gray)
+                    //                        .clipShape(Capsule())
+                    //
+                    //                        HStack {
+                    //                            Image(systemName: "magnifyingglass")
+                    //                                .foregroundColor(.gray)
+                    //                            TextField("Search", text: $searchText)
+                    //                        }
+                    //                        .padding(8)
+                    //                        .background(Color(white: 0.9))
+                    //                        .cornerRadius(10)
+                    //
+                    //                    }
+                    //                    .padding(.leading)
                     
                     VStack(alignment: .leading) {
                         HStack {
@@ -95,7 +95,7 @@ struct PECS: View {
                                     }
                                 }
                             }
-                            .padding(.bottom, 15)
+                            .padding(.bottom)
                         }
                         
                         //Icon Section
@@ -190,7 +190,43 @@ struct PECS: View {
             }
             .padding(.vertical)
         }
-        
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(spacing: 12) {
+                    // SEARCH BAR
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.gray)
+                        TextField("Search", text: $searchText)
+                            .font(.system(size: 14))
+                    }
+                    .padding(8)
+                    .background(Color(white: 0.9))
+                    .cornerRadius(10)
+                    .frame(maxWidth: .infinity)
+                    
+                    // EDIT/DONE BUTTON
+                    Button(action: {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                            isEditMode.toggle()
+                        }
+                    }) {
+                        Text(isEditMode ? "Done" : "Edit")
+                            .font(.system(size: 14, weight: .bold))
+                            .fixedSize()
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(isEditMode ? Color(red: 0.8, green: 0.7, blue: 0.9) : Color.white)
+                            .foregroundColor(isEditMode ? .white : .gray)
+                            .clipShape(Capsule())
+                            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    }
+                    .offset(x: 8)
+                }
+                .frame(width: UIScreen.main.bounds.width - (verticalSizeClass == .regular ? 100 : 45))
+                .offset(x: 10)
+            }
+        }
         .sheet(isPresented: $showingAddSheet) {
             AddIconSheet(words: $words, icons: $icons)
         }
@@ -246,14 +282,22 @@ struct PECS: View {
     }
 }
 
-#Preview (traits: .landscapeLeft){
+#Preview {
     PECS(
         icons: .constant([Icon(name: "stop", image: "StopSign"),
                           Icon(name: "bubbles", image: "Bubbles"),
                           Icon(name: "bathroom", image: "Bathroom"),
                           Icon(name: "food", image: "Eat"),
                           Icon(name: "books", image: "Books"),
-                          Icon(name: "sleep", image: "Bed")
+                          Icon(name: "sleep", image: "Bed"),
+                          Icon(name: "toys", image: "toys"),
+                          Icon(name: "ice cream", image: "helado"),
+                          Icon(name: "outside", image: "park"),
+                          Icon(name: "slide", image: "slide"),
+                          Icon(name: "swing", image: "swing"),
+                          Icon(name: "blocks", image: "blocks")
+                          
+                          
                          ]),
         words: .constant([Word(text: "I"),
                           Word(text: "want"),
@@ -261,6 +305,6 @@ struct PECS: View {
                           Word(text: "go"),
                           Word(text: "my"),
                           Word(text: "to")
-        ])
+                         ])
     )
 }

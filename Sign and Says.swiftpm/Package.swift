@@ -8,17 +8,17 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "Sign and Says",
+    name: "Sign & Says",
     platforms: [
         .iOS("18.1")
     ],
     products: [
         .iOSApplication(
-            name: "Sign and Says",
+            name: "Sign & Says",
             targets: ["AppModule"],
             bundleIdentifier: "com.CoureyJ.SignandSays",
             teamIdentifier: "885D8LZPH6",
-            displayVersion: "0.1.4",
+            displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.mint),

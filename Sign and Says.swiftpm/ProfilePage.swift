@@ -62,13 +62,16 @@ struct ProfilePage: View {
                     Text("Add profile picture")
                         .padding(.bottom, 20)
                     
-                    
                     VStack(spacing: 20) {
                         // Name Field
                         VStack(alignment: .leading) {
                             TextField("What's your child's name?", text: $KidName)
+                                .padding(.vertical, 12)
+                                .background(Color.white.opacity(0.001))
                                 .font(.body)
                                 .minimumScaleFactor(0.5)
+                                .autocorrectionDisabled(true)
+                                .textContentType(.none)
                                 .lineLimit(1)
                                 .onChange(of: KidName) { old, newValue in if newValue.count > nameLimit { KidName = String(newValue.prefix(nameLimit)) } }
                             underline
@@ -130,5 +133,5 @@ struct ProfilePage: View {
 }
 
 #Preview {
-    ProfilePage(KidName: "Courey")
+    ProfilePage()
 }

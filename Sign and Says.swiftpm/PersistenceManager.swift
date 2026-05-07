@@ -15,7 +15,6 @@ class PersistenceManager {
         }
     }
 
-    // MARK: - Load Icons
     static func loadIcons() -> [Icon] {
         guard let data = UserDefaults.standard.data(forKey: iconKey),
               let decoded = try? JSONDecoder().decode([Icon].self, from: data) else {
@@ -26,13 +25,18 @@ class PersistenceManager {
                 Icon(name: "bathroom", image: "Bathroom"),
                 Icon(name: "food", image: "Eat"),
                 Icon(name: "books", image: "Books"),
-                Icon(name: "sleep", image: "Bed")
+                Icon(name: "sleep", image: "Bed"),
+                Icon(name: "toys", image: "toys"),
+                Icon(name: "ice cream", image: "helado"),
+                Icon(name: "outside", image: "park"),
+                Icon(name: "swing", image: "swing"),
+                Icon(name: "blocks", image: "blocks"),
+                Icon(name: "slide", image: "slide")
             ]
         }
         return decoded
     }
 
-    // MARK: - Load Words
     static func loadWords() -> [Word] {
         guard let data = UserDefaults.standard.data(forKey: wordKey),
               let decoded = try? JSONDecoder().decode([Word].self, from: data) else {

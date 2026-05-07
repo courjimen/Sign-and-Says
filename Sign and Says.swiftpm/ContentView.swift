@@ -182,8 +182,8 @@ struct CircleButton: View {
     }
 }
 
-#Preview (traits: .landscapeLeft) {
+#Preview {
     ContentView()
-//        .environment(\.colorScheme, .dark)
+ //.environment(\.colorScheme, .dark)
 }
 

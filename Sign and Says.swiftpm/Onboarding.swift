@@ -37,34 +37,35 @@ enum OnboardingPage: Int, CaseIterable {
         }
     }
 }
+
+struct Onboarding: View {
+    @Binding var hasCompletedOnboarding: Bool
+    @State var currentPage = 0
+    @State var isAnimating = false
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
-    struct Onboarding: View {
-        @Binding var hasCompletedOnboarding: Bool
-        @State var currentPage = 0
-        @State var isAnimating = false
-        @State var deliveryOffset = false
-        @State var trackingProgress: CGFloat = 0.0
-        
-        var body: some View {
-            VStack {
-                TabView(selection: $currentPage) {
-                    ForEach(OnboardingPage.allCases, id: \.rawValue) { page in
-                        getPageView(for: page)
-                            .tag(page.rawValue)
-                    }
+    var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            TabView(selection: $currentPage) {
+                ForEach(OnboardingPage.allCases, id: \.rawValue) { page in
+                    getPageView(for: page)
+                        .tag(page.rawValue)
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .animation(.spring(), value: currentPage)
-                
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            
+            VStack(spacing: 20) {
                 HStack(spacing: 12){
                     ForEach(0..<OnboardingPage.allCases.count, id: \.self) { index in
                         Circle()
-                            .fill(currentPage == index ? Color(Color("Lilac")) : Color.gray.opacity(0.5))
+                            .fill(currentPage == index ? Color("Lilac") : Color.gray.opacity(0.5))
                             .frame(width: currentPage == index ? 12 : 8, height: currentPage == index ? 12 : 8)
-                            .animation(.spring(), value: currentPage)
                     }
                 }
-                .padding(.bottom, 20)
                 
                 Button {
                     if currentPage < OnboardingPage.allCases.count - 1 {
@@ -72,9 +73,9 @@ enum OnboardingPage: Int, CaseIterable {
                             currentPage += 1
                             isAnimating = false
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                             isAnimating = true
-                        })
+                        }
                     } else {
                         hasCompletedOnboarding = true
                     }
@@ -83,118 +84,100 @@ enum OnboardingPage: Int, CaseIterable {
                         .font(.system(.title3, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundStyle(Color.white)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: isLandscape ? 300 : .infinity)
                         .padding(.vertical, 16)
                         .background(
                             LinearGradient(gradient: Gradient(colors: [
-                                Color(Color("DustyOrange")),
-                                Color(Color("DustyOrange")).opacity(0.8)
+                                Color("DustyOrange"),
+                                Color("DustyOrange").opacity(0.8)
                             ]), startPoint: .leading, endPoint: .trailing)
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .shadow(color: Color("DustyOrange").opacity(0.3), radius: 10, x: 0, y: 5)
                 }
                 .padding(.horizontal, 30)
-                .padding(.bottom, 30)
             }
-            
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                    withAnimation {
-                        isAnimating = true
-                    }
-                })
-            }
+            .padding(.bottom, isLandscape ? 10 : 30)
         }
-        var pecsImages: some View {
-            ZStack {
-                Image(.pecs)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 300)
-                    .offset(y: isAnimating ? 0 : 20)
-                    .animation(.spring(dampingFraction: 0.6).delay(0.2), value: isAnimating)
-                    .zIndex(1)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                withAnimation { isAnimating = true }
             }
-        }
-        var aslImages: some View {
-            ZStack {
-                Image(.asl)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 300)
-                    .offset(y: isAnimating ? 0 : 20)
-                    .animation(.spring(dampingFraction: 0.6).delay(0.2), value: isAnimating)
-                    .zIndex(1)
-                    .padding(.top, -23)
-            }
-        }
-        
-        var careCardImages: some View {
-            ZStack {
-                Image(.shareableCareCard)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 300)
-                    .offset(y: isAnimating ? 0 : 20)
-                    .animation(.spring(dampingFraction: 0.6).delay(0.2), value: isAnimating)
-                    .zIndex(1)
-            }
-        }
-        
-        @ViewBuilder
-        func getPageView(for page: OnboardingPage) -> some View {
-            VStack(spacing: 30) {
-                //MARK: Images
-                ZStack {
-                    switch page {
-                    case .PECS:
-                        pecsImages
-                    case .ASL:
-                        aslImages
-                    case .careCard:
-                        careCardImages
-                    }
-                }
-                
-                //MARK: Content
-                VStack(spacing: 20) {
-                    Text(page.title)
-                        .font(.custom("Lexend-ExtraBold", size: 25))
-                        .foregroundColor(Color("Cafe"))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                        .opacity(isAnimating ? 1 : 0)
-                        .offset(y: isAnimating ? 0 : 20)
-                        .animation(.spring(dampingFraction: 0.8).delay(0.3), value: isAnimating)
-                    
-                    Text(page.description)
-                        .font(.system(.title3, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Grey"))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
-                        .opacity(isAnimating ? 1 : 0)
-                        .offset(y: isAnimating ? 0 : 20)
-                        .animation(.spring(dampingFraction: 0.8).delay(0.3), value: isAnimating)
-                    
-                    Text(page.caption)
-                        .font(.system(.caption, design: .default))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Cafe"))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
-                        .opacity(isAnimating ? 1 : 0)
-                        .offset(y: isAnimating ? 0 : 20)
-                        .animation(.spring(dampingFraction: 0.8).delay(0.3), value: isAnimating)
-                }
-            }
-            .padding(.top, 50)
         }
     }
-    
-    #Preview {
+
+    @ViewBuilder
+    func getPageView(for page: OnboardingPage) -> some View {
+        let layout = isLandscape
+            ? AnyLayout(HStackLayout(spacing: 20))
+            : AnyLayout(VStackLayout(spacing: 30))
+
+        layout {
+            Group {
+                switch page {
+                case .PECS: pecsImages
+                case .ASL: aslImages
+                case .careCard: careCardImages
+                }
+            }
+            .frame(maxWidth: isLandscape ? 250 : .infinity)
+
+            VStack(spacing: isLandscape ? 10 : 20) {
+                Text(page.title)
+                    .font(.custom("Lexend-ExtraBold", size: isLandscape ? 22 : 25))
+                    .foregroundColor(Color("Cafe"))
+                    .multilineTextAlignment(.center)
+
+                Text(page.description)
+                    .font(.system(isLandscape ? .body : .title3, design: .rounded))
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("Grey"))
+                    .multilineTextAlignment(.center)
+                
+                Text(page.caption)
+                    .font(.system(.caption, design: .default))
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("Cafe"))
+            }
+            .padding(.horizontal, 32)
+            .frame(maxWidth: isLandscape ? 350 : .infinity)
+            .opacity(isAnimating ? 1 : 0)
+            .offset(y: isAnimating ? 0 : 20)
+            .animation(.spring(dampingFraction: 0.8).delay(0.3), value: isAnimating)
+        }
+        .padding(.horizontal, isLandscape ? 40 : 0)
+        .padding(.top, isLandscape ? 20 : 50)
+    }
+
+    var pecsImages: some View {
+        Image(.pecs)
+            .resizable()
+            .scaledToFit()
+            .frame(maxHeight: isLandscape ? 180 : 300)
+            .offset(y: isAnimating ? 0 : 20)
+            .animation(.spring(dampingFraction: 0.6).delay(0.2), value: isAnimating)
+    }
+
+    var aslImages: some View {
+        Image(.asl)
+            .resizable()
+            .scaledToFit()
+            .frame(maxHeight: isLandscape ? 180 : 300)
+            .offset(y: isAnimating ? 0 : 20)
+            .animation(.spring(dampingFraction: 0.6).delay(0.2), value: isAnimating)
+    }
+
+    var careCardImages: some View {
+        Image(.shareableCareCard)
+            .resizable()
+            .scaledToFit()
+            .frame(maxHeight: isLandscape ? 180 : 300)
+            .offset(y: isAnimating ? 0 : 20)
+            .animation(.spring(dampingFraction: 0.6).delay(0.2), value: isAnimating)
+    }
+}
+
+#Preview  {
         Onboarding(hasCompletedOnboarding: .constant(false))
-            //.environment(\.colorScheme, .dark)
+         //   .environment(\.colorScheme, .dark)
     }
     

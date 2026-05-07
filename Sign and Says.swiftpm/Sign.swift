@@ -10,7 +10,7 @@ import AVFoundation
 
 struct Sign: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
-    
+    @State private var searchSign = ""
     @State private var selectedSign: ASLSign? = nil
     private let synthesizer = AVSpeechSynthesizer()
     
@@ -29,8 +29,12 @@ struct Sign: View {
         ASLSign(name: "I Love You", frames: ["loveu_1", "loveu_2", "loveu_3"], staticThumb: "loveu_1"),
         ASLSign(name: "Above", frames: ["above_1", "above_2", "above_3"], staticThumb: "above_1"),
         ASLSign(name: "Eat", frames: ["eat_1", "eat_2", "eat_3"], staticThumb: "eat_1"),
-        ASLSign(name: "More", frames: ["more_1", "more_2", "more_3"], staticThumb: "more_1")
+        ASLSign(name: "More", frames: ["more_1", "more_2", "more_3"], staticThumb: "more_1"),
+        ASLSign(name: "Stop", frames: ["Stop 1", "Stop 2", "Stop 3"], staticThumb: "Stop 1")
     ]
+    var filteredSign: [ASLSign] {
+        searchSign.isEmpty ? aslSigns : aslSigns.filter { $0.name.localizedCaseInsensitiveContains(searchSign) }
+    }
     
     var body: some View {
         ZStack{
@@ -40,10 +44,28 @@ struct Sign: View {
                     VStack {
                         Text("Practice ASL")
                             .font(.title2)
+                            .bold()
                             .foregroundColor(.secondary)
+                        // Search Bar
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            TextField("Search", text: $searchSign)
+                            
+                            
+                                .padding(10)
+                                .background(Color(.systemGray6)) // Subtle light grey
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                                )
+                        }
+                        .padding(.horizontal)
+                        
                         ScrollView {
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: 175))], spacing: 15) {
-                                ForEach(aslSigns) { sign in
+                                ForEach(filteredSign) { sign in
                                     SignCard(aslSign: sign) {
                                         playSignSound(name: sign.name)
                                         selectedSign = sign
@@ -64,7 +86,7 @@ struct Sign: View {
                             .foregroundColor(.secondary)
                         ScrollView {
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing:10) {
-                                ForEach(aslSigns) { sign in
+                                ForEach(filteredSign) { sign in
                                     SignCard(aslSign: sign) {
                                         playSignSound(name: sign.name)
                                         selectedSign = sign
@@ -89,7 +111,7 @@ struct Sign: View {
     }
 }
 
-#Preview {
+#Preview (traits: .landscapeLeft) {
     Sign()
     //  .environment(\.colorScheme, .dark)
 }
