@@ -45,30 +45,6 @@ struct PECS: View {
                 .edgesIgnoringSafeArea(.all)
             ScrollView {
                 VStack(spacing: 0) {
-                    // Edit & Search Bar
-                    //                    HStack(spacing: 15) {
-                    //                        Button(isEditMode ? "Done" : "Edit") {
-                    //                            withAnimation(.spring()) {
-                    //                                isEditMode.toggle()
-                    //                            }
-                    //                        }
-                    //                        .buttonStyle(.borderedProminent)
-                    //                        .tint(isEditMode ? Color.blue : Color.white)
-                    //                        .foregroundColor(isEditMode ? .white : .gray)
-                    //                        .clipShape(Capsule())
-                    //
-                    //                        HStack {
-                    //                            Image(systemName: "magnifyingglass")
-                    //                                .foregroundColor(.gray)
-                    //                            TextField("Search", text: $searchText)
-                    //                        }
-                    //                        .padding(8)
-                    //                        .background(Color(white: 0.9))
-                    //                        .cornerRadius(10)
-                    //
-                    //                    }
-                    //                    .padding(.leading)
-                    
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Helper Words")

@@ -4,12 +4,13 @@
  Food
  Requests
  */
-
 import SwiftUI
 import AVFoundation
 
 struct Sign: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(\.dismiss) var dismiss // Standard way to handle back button
+    
     @State private var searchSign = ""
     @State private var selectedSign: ASLSign? = nil
     private let synthesizer = AVSpeechSynthesizer()
@@ -32,74 +33,61 @@ struct Sign: View {
         ASLSign(name: "More", frames: ["more_1", "more_2", "more_3"], staticThumb: "more_1"),
         ASLSign(name: "Stop", frames: ["Stop 1", "Stop 2", "Stop 3"], staticThumb: "Stop 1")
     ]
+    
     var filteredSign: [ASLSign] {
         searchSign.isEmpty ? aslSigns : aslSigns.filter { $0.name.localizedCaseInsensitiveContains(searchSign) }
     }
     
     var body: some View {
-        ZStack{
-            Color(Color("LightGreen").opacity(0.3)).edgesIgnoringSafeArea(.all)
-            Group {
-                if verticalSizeClass == .regular {
+        NavigationStack {
+            ZStack {
+                Color(Color("LightGreen").opacity(0.3)).edgesIgnoringSafeArea(.all)
+                
+                ScrollView {
                     VStack {
+                        // Dynamic Grid sizing
+                        let minWidth: CGFloat = verticalSizeClass == .regular ? 175 : 150
+                        
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: minWidth))], spacing: 15) {
+                            ForEach(filteredSign) { sign in
+                                SignCard(aslSign: sign) {
+                                    playSignSound(name: sign.name)
+                                    selectedSign = sign
+                                }
+                            }
+                        }
+                        .padding()
+                    }
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // Search Bar in the center of the Nav Bar
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 12) {
                         Text("Practice ASL")
                             .font(.title2)
                             .bold()
                             .foregroundColor(.secondary)
-                        // Search Bar
+                        
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.gray)
                             TextField("Search", text: $searchSign)
-                            
-                            
-                                .padding(10)
-                                .background(Color(.systemGray6)) // Subtle light grey
-                                .cornerRadius(12)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                                )
+                                .textInputAutocapitalization(.never)
                         }
-                        .padding(.horizontal)
-                        
-                        ScrollView {
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 175))], spacing: 15) {
-                                ForEach(filteredSign) { sign in
-                                    SignCard(aslSign: sign) {
-                                        playSignSound(name: sign.name)
-                                        selectedSign = sign
-                                    }
-                                }
-                            }
-                            .padding()
-                        }
-                        .sheet(item: $selectedSign) { sign in
-                            SignDetailSheet(aslSign: sign)
-                                .presentationDetents([.medium, .large])
-                        }
+                        .padding(8)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
                     }
-                } else {
-                    VStack {
-                        Text("Practice ASL")
-                            .font(.title2)
-                            .foregroundColor(.secondary)
-                        ScrollView {
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing:10) {
-                                ForEach(filteredSign) { sign in
-                                    SignCard(aslSign: sign) {
-                                        playSignSound(name: sign.name)
-                                        selectedSign = sign
-                                    }
-                                }
-                            }.padding()
-                        }
-                        .sheet(item: $selectedSign) { sign in
-                            SignDetailSheet(aslSign: sign)
-                                .presentationDetents([.medium, .large])
-                        }
-                    }
+                    .frame(width: UIScreen.main.bounds.width - (verticalSizeClass == .regular ? 100 : 45))
+                    .offset(x: 10)
                 }
+            }
+            
+            .sheet(item: $selectedSign) { sign in
+                SignDetailSheet(aslSign: sign)
+                    .presentationDetents([.medium, .large])
             }
         }
     }
