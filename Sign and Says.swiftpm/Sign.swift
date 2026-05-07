@@ -3,6 +3,15 @@
  Actions
  Food
  Requests
+ 
+ ADD NOW
+ 
+ wait
+ hungry
+ good morning/night
+ tired
+ happy
+ sad
  */
 import SwiftUI
 import AVFoundation
@@ -24,6 +33,8 @@ struct Sign: View {
         ASLSign(name: "Mommy", frames: ["mom_1", "mom_2", "mom_3"], staticThumb: "mom_1"),
         ASLSign(name: "Brother", frames: ["bro_1", "bro_2", "bro_3"], staticThumb: "bro_1"),
         ASLSign(name: "Drink", frames: ["drink_1", "drink_2", "drink_3"], staticThumb: "drink_1"),
+        ASLSign(name: "Wait", frames: ["wait 1", "wait 2", "wait 3"], staticThumb: "wait 1"),
+        ASLSign(name: "Sorry", frames: ["sorry 1", "sorry 2", "sorry 3"], staticThumb: "sorry 1"),
         ASLSign(name: "iPhone", frames: ["iPhone_1", "iPhone_2", "iPhone_3"], staticThumb: "iPhone_1"),
         ASLSign(name: "I Don't Know", frames: ["dunno_1", "dunno_2", "dunno_3"], staticThumb: "dunno_1"),
         ASLSign(name: "Help", frames: ["help_1", "help_2", "help_3"], staticThumb: "help_1"),
@@ -31,7 +42,9 @@ struct Sign: View {
         ASLSign(name: "Above", frames: ["above_1", "above_2", "above_3"], staticThumb: "above_1"),
         ASLSign(name: "Eat", frames: ["eat_1", "eat_2", "eat_3"], staticThumb: "eat_1"),
         ASLSign(name: "More", frames: ["more_1", "more_2", "more_3"], staticThumb: "more_1"),
-        ASLSign(name: "Stop", frames: ["Stop 1", "Stop 2", "Stop 3"], staticThumb: "Stop 1")
+        ASLSign(name: "Thank You", frames: ["thank u 1", "thank u 2", "thank u 3"], staticThumb: "thank u 1"),
+        ASLSign(name: "Stop", frames: ["Stop 1", "Stop 2", "Stop 3"], staticThumb: "Stop 1"),
+        ASLSign(name: "Please", frames: ["please 1", "please 2", "please 3"], staticThumb: "please 1")
     ]
     
     var filteredSign: [ASLSign] {
@@ -62,14 +75,22 @@ struct Sign: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                // Search Bar in the center of the Nav Bar
                 ToolbarItem(placement: .principal) {
-                    HStack(spacing: 12) {
+                    HStack(spacing: 0) {
+                        Spacer()
+                            .frame(width: 20)
+                        
+                        //TITLE
                         Text("Practice ASL")
                             .font(.title2)
                             .bold()
                             .foregroundColor(.secondary)
+                            .fixedSize()
                         
+                        Spacer()
+                            .frame(width: 20)
+                        
+                        //SEARCH BAR
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.gray)
@@ -79,9 +100,10 @@ struct Sign: View {
                         .padding(8)
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(width: UIScreen.main.bounds.width - (verticalSizeClass == .regular ? 100 : 45))
-                    .offset(x: 10)
+                    .padding(.trailing, 12)
+                    .frame(width: UIScreen.main.bounds.width - (verticalSizeClass == .regular ? 60 : 140))
                 }
             }
             
@@ -99,7 +121,7 @@ struct Sign: View {
     }
 }
 
-#Preview (traits: .landscapeLeft) {
+#Preview  {
     Sign()
     //  .environment(\.colorScheme, .dark)
 }

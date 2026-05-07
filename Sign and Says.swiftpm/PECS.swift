@@ -168,8 +168,10 @@ struct PECS: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                HStack(spacing: 12) {
-                    // SEARCH BAR
+                HStack(spacing: 0) {
+                    Spacer(minLength: 8)
+                    
+                    //SEARCH BAR
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
@@ -181,7 +183,10 @@ struct PECS: View {
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity)
                     
-                    // EDIT/DONE BUTTON
+                    Spacer()
+                        .frame(width: 20)
+                    
+                    //EDIT/DONE BUTTON
                     Button(action: {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                             isEditMode.toggle()
@@ -197,10 +202,9 @@ struct PECS: View {
                             .clipShape(Capsule())
                             .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
                     }
-                    .offset(x: 8)
                 }
-                .frame(width: UIScreen.main.bounds.width - (verticalSizeClass == .regular ? 100 : 45))
-                .offset(x: 10)
+                .padding(.trailing, 8)
+                .frame(width: UIScreen.main.bounds.width - (verticalSizeClass == .regular ? 80 : 120))
             }
         }
         .sheet(isPresented: $showingAddSheet) {

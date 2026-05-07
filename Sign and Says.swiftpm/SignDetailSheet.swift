@@ -19,6 +19,7 @@ struct SignDetailSheet: View {
                     .foregroundColor(Color("Cafe"))
                     .minimumScaleFactor(0.5)
                     .padding(.top, isLandscape ? 10 : 30)
+                    .padding(.leading, isLandscape ? 10: 30)
                 
                 // Image Container
                 PhaseAnimator(aslSign.frames) { frameName in
