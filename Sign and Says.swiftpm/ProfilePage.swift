@@ -114,12 +114,18 @@ struct ProfilePage: View {
                         .padding(.vertical, 20)
                     
                     NavigationLink(destination: Questionnaire(KidName: KidName, Trigger: Trigger, Fixations: Fixations, Coping: Coping, profileImage: uiImage)) {
-                        Rectangle()
-                            .frame(width: 175, height: 35)
-                            .foregroundColor(Color("BabyBlue"))
-                            .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black, lineWidth: 2))
-                            .overlay(Text("Take Questionnaire").foregroundStyle(.black).bold())
-                    }
+                        Text("Take Questionnaire")
+                                .bold()
+                                .foregroundStyle(.black)
+                                .padding(.vertical, 10)
+                                .frame(maxWidth: .infinity)
+                                .background(Color("BabyBlue"))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(Color.black, lineWidth: 2)
+                                )
+                        }
+                    .padding(.horizontal, 75)
                 }
             }
         }
