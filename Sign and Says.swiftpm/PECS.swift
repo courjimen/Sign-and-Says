@@ -215,6 +215,12 @@ struct PECS: View {
         } message: {
             Text("Please tap an icon to make a request.")
         }
+        .onChange(of: icons) {
+            PersistenceManager.savePECS(icons: icons, words: words)
+        }
+        .onChange(of: words) {
+            PersistenceManager.savePECS(icons: icons, words: words)
+        }
     }
     @ViewBuilder
     func DeleteButton(action: @escaping () -> Void) -> some View {
